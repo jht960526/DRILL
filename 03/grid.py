@@ -1,8 +1,8 @@
 import turtle as t
 
 t.penup()
-height = 150
-hor = 150
+height = 250
+hor = 10
 t.goto(hor,height)
 t.pendown()
 
@@ -14,8 +14,8 @@ for i in range(6):
       t.pendown()
 
 t.penup()
-hor = 150
-height = 150
+hor = 10
+height = 250
 t.goto(hor,height)
 t.pendown()
 t.right(90)
