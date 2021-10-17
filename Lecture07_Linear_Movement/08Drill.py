@@ -53,8 +53,8 @@ def draw_point(p):
 
 
 def draw_circle(p1, p2):
-    #draw_big_point(p1)
-    #draw_big_point(p2)
+    # draw_big_point(p1)
+    # draw_big_point(p2)
 
     x1, y1 = p1
     x2, y2 = p2
@@ -67,11 +67,22 @@ def draw_circle(p1, p2):
 
     draw_point(p2)
 
+def draw_star(p1, p2):
+    x1, y1 = p1
+    x2, y2 = p2
+
+    for i in range(0, 100):
+        t = i / (2*math.pi)
+        x = (10 - 25) * math.cos(t) + 25 * math.cos(t * (2.5 - 1))
+        y = (10 - 25) * math.sin(t) - 25 * math.sin(t * (2.5 - 1))
+        draw_point((x, y))
+
 
 prepare_turtle_canvas()
 
 p1 = 100, 20
-p2 = 200, 300
+p2 = 400, 500
 
 draw_circle(p1, p2)
+draw_star(p1, p2)
 turtle.done()
