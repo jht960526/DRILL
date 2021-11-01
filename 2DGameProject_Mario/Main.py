@@ -53,20 +53,36 @@ class Player:
                     self.bIsRight = False
         self.x += self.dir * 10
 
+class Enemy:
+    def __init__(self):
+        self.x, self.y = 300, 90
+        self.frame = random.randint(0, 2)
+        self.image = load_image("Resource/Enemy1.png")
+        self.frame = 0
+
+    def update(self):
+        self.frame = (self.frame + 1) % 3
+
+    def draw(self):
+        self.image.clip_draw(self.frame * 60, 0, 60, 87, self.x, self.y)
+
 
 open_canvas()
 grass = load_image('Resource/grass.png')
 background = load_image('Resource/MarioBackground1.png')
 player = Player()
+enemy = Enemy()
 frame = 0
 
 while player.bIsRun:
     player.walk()
 
     player.update()
+    enemy.update()
     clear_canvas()
     background.draw(800//2, 600//2)
     grass.draw(400, 30)
+    enemy.draw()
     player.draw()
     update_canvas()
     delay(0.07)
