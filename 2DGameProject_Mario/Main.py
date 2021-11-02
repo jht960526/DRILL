@@ -4,6 +4,7 @@ from pico2d import *
 class Player:
     def __init__(self):
         self.x, self.y = 10, 90
+        self.vel = 100
         self.frame = random.randint(0, 8)
         self.image = load_image("Resource/mario_right_run.png")
         self.runImage = [load_image("Resource/Mario_Right_Run.png"), load_image("Resource/Mario_Left_Run.png")]
@@ -12,6 +13,8 @@ class Player:
         self.bIsRight = True
         self.dir = 0
         self.bIsRun = True
+        self.bIsJump = True
+        self.jumpCount = 10
 
     def update(self):
        self.frame = (self.frame + 1) % 9
@@ -25,9 +28,6 @@ class Player:
             self.runImage[0].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
         elif self.dir != 0 and self.bIsRight == False:
             self.runImage[1].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
-
-    def get_position(self):
-        return self.x, self.y
 
     def walk(self):
 
@@ -44,6 +44,10 @@ class Player:
                     self.bIsRight = False
                 elif event.key == SDLK_ESCAPE:
                     self.bIsRun = False
+                elif event.key == SDLK_SPACE:
+                    if self.y < 600 - 102 - self.vel:
+                        self.y += self.vel
+
             elif event.type == SDL_KEYUP:
                 if event.key == SDLK_RIGHT:
                     self.dir -= 1
@@ -51,7 +55,11 @@ class Player:
                 elif event.key == SDLK_LEFT:
                     self.dir += 1
                     self.bIsRight = False
+                elif event.key == SDLK_SPACE:
+                    if self.y > self.vel:
+                        self.y -= self.vel
         self.x += self.dir * 10
+
 
 class Enemy:
     def __init__(self):
