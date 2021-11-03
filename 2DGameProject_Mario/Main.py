@@ -18,6 +18,7 @@ class Player:
 
     def update(self):
         self.frame = (self.frame + 1) % 9
+        self.x += self.dir * 10
         if self.bIsJump:
             self.y += -1 * self.fallSpeed
             self.fallSpeed += 1
@@ -28,13 +29,13 @@ class Player:
 
 
     def draw(self):
-        if self.dir == 0 and self.bIsRight == True:
+        if self.dir == 0 and self.bIsRight:
             self.idleImage[0].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
-        elif self.dir == 0 and self.bIsRight == False:
+        elif self.dir == 0 and not self.bIsRight:
             self.idleImage[1].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
-        elif self.dir != 0 and self.bIsRight == True:
+        elif self.dir != 0 and self.bIsRight:
             self.runImage[0].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
-        elif self.dir != 0 and self.bIsRight == False:
+        elif self.dir != 0 and not self.bIsRight:
             self.runImage[1].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
 
     def walk(self):
@@ -45,32 +46,24 @@ class Player:
 
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_RIGHT:
-                    self.dir += 1
                     self.bIsRight = True
+                    self.dir += 1
                 elif event.key == SDLK_LEFT:
-                    self.dir -= 1
                     self.bIsRight = False
+                    self.dir -= 1
                 elif event.key == SDLK_ESCAPE:
                     self.bIsRun = False
                 elif event.key == SDLK_SPACE:
-                    self.bIsJump = True
-                    self.fallSpeed = -13
+                    self.Jump()
 
             elif event.type == SDL_KEYUP:
                 if event.key == SDLK_RIGHT:
                     self.dir -= 1
-                    self.bIsRight = True
                 elif event.key == SDLK_LEFT:
                     self.dir += 1
-                    self.bIsRight = False
-
-        self.x += self.dir * 10
-
     def Jump(self):
         self.bIsJump = True
-
-    def JumpStop(self):
-        self.bIsJump = False
+        self.fallSpeed = -13
 
 class Enemy:
     def __init__(self):
@@ -104,7 +97,7 @@ while player.bIsRun:
     enemy.draw()
     player.draw()
     update_canvas()
-    delay(0.07)
+    delay(0.05)
 
 close_canvas()
 
