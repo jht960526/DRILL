@@ -1,10 +1,11 @@
 import random
+import game_framework
 from pico2d import *
 
 class Player:
     def __init__(self):
         self.x, self.y = 10, 90
-        self.vel = 100
+        self.fallSpeed = 0
         self.frame = random.randint(0, 8)
         self.image = load_image("Resource/mario_right_run.png")
         self.runImage = [load_image("Resource/Mario_Right_Run.png"), load_image("Resource/Mario_Left_Run.png")]
@@ -13,11 +14,18 @@ class Player:
         self.bIsRight = True
         self.dir = 0
         self.bIsRun = True
-        self.bIsJump = True
-        self.jumpCount = 10
+        self.bIsJump = False
 
     def update(self):
-       self.frame = (self.frame + 1) % 9
+        self.frame = (self.frame + 1) % 9
+        if self.bIsJump:
+            self.y += -1 * self.fallSpeed
+            self.fallSpeed += 1
+            delay(0.003)
+            if self.y <= 90:
+                self.y = 90
+
+
 
     def draw(self):
         if self.dir == 0 and self.bIsRight == True:
@@ -30,11 +38,11 @@ class Player:
             self.runImage[1].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
 
     def walk(self):
-
         events = get_events()
         for event in events:
             if event.type == SDL_QUIT:
                 self.bIsRun = False
+
             elif event.type == SDL_KEYDOWN:
                 if event.key == SDLK_RIGHT:
                     self.dir += 1
@@ -45,8 +53,8 @@ class Player:
                 elif event.key == SDLK_ESCAPE:
                     self.bIsRun = False
                 elif event.key == SDLK_SPACE:
-                    if self.y < 600 - 102 - self.vel:
-                        self.y += self.vel
+                    self.bIsJump = True
+                    self.fallSpeed = -13
 
             elif event.type == SDL_KEYUP:
                 if event.key == SDLK_RIGHT:
@@ -55,11 +63,14 @@ class Player:
                 elif event.key == SDLK_LEFT:
                     self.dir += 1
                     self.bIsRight = False
-                elif event.key == SDLK_SPACE:
-                    if self.y > self.vel:
-                        self.y -= self.vel
+
         self.x += self.dir * 10
 
+    def Jump(self):
+        self.bIsJump = True
+
+    def JumpStop(self):
+        self.bIsJump = False
 
 class Enemy:
     def __init__(self):
