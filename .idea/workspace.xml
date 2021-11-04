@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7ff0cd77-e694-4f1a-a676-084df2acfa8b" name="Changes" comment="" />
+    <list default="true" id="7ff0cd77-e694-4f1a-a676-084df2acfa8b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/2DGameProject_Mario/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/2DGameProject_Mario/Main.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
