@@ -1,18 +1,23 @@
 import random
 import game_framework
 from pico2d import *
+from Enemy import Enemy
 
 class Player:
+
     def __init__(self):
+        # Status
         self.x, self.y = 10, 90
         self.fallSpeed = 0
-        self.frame = random.randint(0, 8)
+        self.frame = random.randint(1, 8)
+        self.dir = 0
+        self.jumpCount = 0
+        # image load
         self.image = load_image("Resource/mario_right_run.png")
         self.runImage = [load_image("Resource/Mario_Right_Run.png"), load_image("Resource/Mario_Left_Run.png")]
         self.idleImage = [load_image("Resource/Mario_Right_Idle.png"), load_image("Resource/Mario_Left_Idle.png")]
-        self.frame = 0
+        # Check
         self.bIsRight = True
-        self.dir = 0
         self.bIsRun = True
         self.bIsJump = False
 
@@ -38,7 +43,7 @@ class Player:
         elif self.dir != 0 and not self.bIsRight:
             self.runImage[1].clip_draw(self.frame * 90, 0, 80, 102, self.x, self.y)
 
-    def walk(self):
+    def Player_Handle(self):
         events = get_events()
         for event in events:
             if event.type == SDL_QUIT:
@@ -64,19 +69,10 @@ class Player:
     def Jump(self):
         self.bIsJump = True
         self.fallSpeed = -13
-
-class Enemy:
-    def __init__(self):
-        self.x, self.y = 300, 90
-        self.frame = random.randint(0, 2)
-        self.image = load_image("Resource/Enemy1.png")
-        self.frame = 0
-
-    def update(self):
-        self.frame = (self.frame + 1) % 3
-
-    def draw(self):
-        self.image.clip_draw(self.frame * 60, 0, 60, 87, self.x, self.y)
+        self.jumpCount += 1
+        if self.jumpCount == 2:
+            self.bIsJump = False
+            self.jumpCount = 0
 
 
 open_canvas()
@@ -87,7 +83,7 @@ enemy = Enemy()
 frame = 0
 
 while player.bIsRun:
-    player.walk()
+    player.Player_Handle()
 
     player.update()
     enemy.update()
