@@ -35,6 +35,7 @@ class Bird:
             if self.x >= 1500:
                 # 오른쪽 끝에 도달하면 계속 -속도로 바꿈
                 self.velocity = -RUN_SPEED_PPS
+
             elif self.x <= 90:
                 # 왼쪽 끝에 도달하면 다시 원래대로
                 self.velocity = RUN_SPEED_PPS
