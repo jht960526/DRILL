@@ -1,12 +1,14 @@
+import game_framework
+
 from pico2d import *
 
 class Brick:
     image = None
     def __init__(self):
-        self.x, self.y = 300, 250
+        self.x, self.y = 300, 230
 
         if Brick.image == None:
-            self.image = load_image('Resource/brick1.png')
+            Brick.image = load_image('Resource/brick1.png')
 
     def update(self):
         pass
@@ -16,4 +18,4 @@ class Brick:
         draw_rectangle(*self.get_collision())
 
     def get_collision(self):
-        return self.x - 20, self.y - 34, self.x + 20, self.y + 34
+        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
