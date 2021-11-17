@@ -7,6 +7,7 @@ from Player import Player
 from Enemy import Enemy
 from Grass import Grass
 from BackGround import Stage1
+from  Brick import Brick
 
 name = "Main_State"
 
@@ -14,27 +15,25 @@ player = None
 grass = None
 enemy = None
 backGround = None
+brick = None
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
 
-    #if left_a > right_b: return False
-    #if right_a < left_b: return False
-    #if top_a < bottom_b: return False
-    if bottom_a > top_b: return True
-    #if bottom_a < top_b: return True
-
-    #return False
-
+    if bottom_a > top_b and right_a > left_b: return True
+    if bottom_a > top_b and left_a > right_b: return True
 
 def enter():
     global player, enemy, grass, backGround
     backGround = Stage1()
     game_world.add_object(backGround, 0)
 
+    brick = Brick()
+    game_world.add_object(brick, 0)
+
     grass = Grass()
-    game_world.add_object(grass, 1)
+    game_world.add_object(grass, 0)
 
     enemy = Enemy()
     game_world.add_object(enemy, 1)
