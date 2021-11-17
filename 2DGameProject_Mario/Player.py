@@ -26,7 +26,7 @@ key_event_table = {
 
 class IdleState:
 
-    def enter(player, event):
+    def Enter(player, event):
         if event == RIGHT_DOWN:
             player.velocity += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
@@ -37,14 +37,16 @@ class IdleState:
             player.velocity += RUN_SPEED_PPS
         player.timer = 1000
 
-    def exit(player, event):
+    def Exit(player, event):
+        if event == SPACE:
+            player.Jump()
         pass
 
-    def do(player):
+    def Do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 9
         player.timer -= 1
 
-    def draw(player):
+    def Draw(player):
         if player.dir == 1:
             player.idleImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
         else:
@@ -52,7 +54,7 @@ class IdleState:
 
 class RunState:
 
-    def enter(player, event):
+    def Enter(player, event):
         if event == RIGHT_DOWN:
             player.velocity += RUN_SPEED_PPS
         elif event == LEFT_DOWN:
@@ -64,15 +66,17 @@ class RunState:
         player.dir = clamp(-1, player.velocity, 1)
         pass
 
-    def exit(player, event):
+    def Exit(player, event):
+        if event == SPACE:
+            player.Jump()
         pass
 
-    def do(player):
+    def Do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 9
         player.x += player.velocity * game_framework.frame_time
         player.x = clamp(25, player.x, 1600 - 25)
 
-    def draw(player):
+    def Draw(player):
         if player.dir == 1:
             player.runImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
         else:
@@ -91,11 +95,11 @@ class Player:
         self.x, self.y = 10, 90
         self.fallSpeed = 0
         self.velocity = 10
-        self.frame = random.randint(1, 8)
-        self.dir = 0
+        self.frame = 0
+        self.dir = 1
         self.jumpCount = 0
         self.cur_state = IdleState
-        self.cur_state.enter(self, None)
+        self.cur_state.Enter(self, None)
         self.event_que = []
         # image load
         self.image = load_image("Resource/mario_right_run.png")
@@ -106,32 +110,32 @@ class Player:
         self.bIsRun = True
         self.bIsJump = False
 
-    def add_event(self, event):
+    def Add_event(self, event):
         self.event_que.insert(0, event)
 
-    def update(self):
-        self.cur_state.do(self)
+    def Update(self):
+        self.cur_state.Do(self)
         if len(self.event_que) > 0:
             event = self.event_que.pop()
-            self.cur_state.exit(self, event)
+            self.cur_state.Exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
-            self.cur_state.enter(self, event)
+            self.cur_state.Enter(self, event)
 
 
-    def draw(self):
-        self.cur_state.draw(self)
+    def Draw(self):
+        self.cur_state.Draw(self)
         #self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (225, 225, 0))
 
 
     def Player_Handle(self, event):
         if (event.type, event.key) in key_event_table:
             key_event = key_event_table[(event.type, event.key)]
-            self.add_event(key_event)
+            self.Add_event(key_event)
 
     def Jump(self):
         self.bIsJump = True
         self.fallSpeed = -13
         self.jumpCount += 1
-        if self.jumpCount == 2:
-            self.bIsJump = False
-            self.jumpCount = 0
+        #if self.jumpCount == 2:
+            #self.bIsJump = False
+            #self.jumpCount = 0

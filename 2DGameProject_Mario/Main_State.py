@@ -45,11 +45,11 @@ def handle_events():
             player.Player_Handle(event)
 
 def update():
-    player.update()
+    player.Update()
 
 def draw():
     clear_canvas()
     backGround.draw()
     grass.draw()
-    player.draw()
+    player.Draw()
     update_canvas()
