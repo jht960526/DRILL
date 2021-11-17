@@ -23,11 +23,13 @@ def enter():
     grass = Grass()
     game_world.add_object(grass, 1)
 
+    enemy = Enemy()
+    game_world.add_object(enemy, 1)
+
     player = Player()
     game_world.add_object(player, 1)
 
-    enemy = Enemy()
-    game_world.add_object(enemy, 1)
+
 
 
 

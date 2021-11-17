@@ -128,6 +128,7 @@ class Player:
 
     def draw(self):
         self.cur_state.draw(self)
+        delay(0.012)
         #self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (225, 225, 0))
 
 
