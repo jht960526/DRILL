@@ -35,6 +35,8 @@ class IdleState:
             player.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             player.velocity += RUN_SPEED_PPS
+        elif event == SPACE:
+            player.Jump()
         player.timer = 1000
 
     def Exit(player, event):
@@ -82,11 +84,11 @@ class RunState:
         else:
             player.runImage[1].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
 
+
 next_state_table = {
     IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE: IdleState},
     RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, SPACE: RunState},
 }
-
 
 class Player:
 
@@ -106,8 +108,6 @@ class Player:
         self.runImage = [load_image("Resource/Mario_Right_Run.png"), load_image("Resource/Mario_Left_Run.png")]
         self.idleImage = [load_image("Resource/Mario_Right_Idle.png"), load_image("Resource/Mario_Left_Idle.png")]
         # Check
-        self.bIsRight = True
-        self.bIsRun = True
         self.bIsJump = False
 
     def Add_event(self, event):
@@ -120,6 +120,12 @@ class Player:
             self.cur_state.Exit(self, event)
             self.cur_state = next_state_table[self.cur_state][event]
             self.cur_state.Enter(self, event)
+        if self.bIsJump:
+            self.y += -1 * self.fallSpeed
+            self.fallSpeed += 1
+            delay(0.003)
+            if self.y <= 90:
+                self.y = 90
 
 
     def Draw(self):
