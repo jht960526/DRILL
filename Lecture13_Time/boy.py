@@ -5,13 +5,21 @@ from ball import Ball
 import game_world
 
 # Boy Run Speed
-PIXEL_PER_METER = (10.0 / 0.3)  # 10 pixel 30 cm
-RUN_SPEED_KMPH = 20.0  # Km / Hour
+# fill expressions correctly
+PIXEL_PER_METER = (10.0/ 0.3)
+RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
+K_PIXEL_PER_METER = (10.0/ 0.3)
+K_RUN_SPEED_KMPH = 108.0
+K_RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+K_RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+K_RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
 # Boy Action Speed
+# fill expressions correctly
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
@@ -75,13 +83,14 @@ class RunState:
         elif event == LEFT_UP:
             boy.velocity += RUN_SPEED_PPS
         boy.dir = clamp(-1, boy.velocity, 1)
+        pass
 
     def exit(boy, event):
         if event == SPACE:
             boy.fire_ball()
 
     def do(boy):
-        #boy.frame = (boy.frame + 1) % 8
+        # fill here
         boy.frame = (boy.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
         boy.x += boy.velocity * game_framework.frame_time
         boy.x = clamp(25, boy.x, 1600 - 25)
@@ -129,19 +138,17 @@ class Boy:
         self.image = load_image('animation_sheet.png')
         self.font = load_font('ENCR10B.TTF', 16)
         self.dir = 1
-        self.velocity = 0
+        self.velocity = 10
         self.frame = 0
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
 
-    def get_bb(self):
-        # fill here
-        return self.x - 50, self.y - 50, self.x + 50, self.y + 50
-
 
     def fire_ball(self):
-        ball = Ball(self.x, self.y, self.dir * RUN_SPEED_PPS * 10)
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
+        self.x += self.velocity * game_framework.frame_time
+        ball = Ball(self.x, self.y, self.dir*K_RUN_SPEED_PPS)
         game_world.add_object(ball, 1)
 
 
@@ -158,10 +165,7 @@ class Boy:
 
     def draw(self):
         self.cur_state.draw(self)
-        self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (255, 255, 0))
-        #fill here
-        draw_rectangle(*self.get_bb())
-
+        self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (225, 225, 0))
 
     def handle_event(self, event):
         if (event.type, event.key) in key_event_table:

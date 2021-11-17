@@ -42,7 +42,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            player.Player_Handle()
+            player.Player_Handle(event)
 
 def update():
     player.update()

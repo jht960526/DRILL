@@ -23,6 +23,10 @@ class Bird:
         self.velocity = RUN_SPEED_PPS
         self.frame = 0
 
+    def get_bb(self):
+        # fill here
+            return self.x - 10, self.y - 10, self.x + 10, self.y + 10
+
     def draw(self):
         if self.dir == 1:
             self.image.clip_draw(int(self.frame) * 100, 0, 100, 100, self.x, self.y)
