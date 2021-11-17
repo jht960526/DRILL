@@ -30,6 +30,7 @@ class Enemy:
             self.image.clip_draw(int(self.frame) * 60, 0, 60, 87, self.x, self.y)
         elif self.dir == -1:
             self.image.clip_composite_draw(int(self.frame) * 60, 0, 60, 87, 0.0,'h',self.x, self.y, 60, 87)
+        draw_rectangle(*self.get_collision())
 
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
@@ -42,3 +43,7 @@ class Enemy:
             # 왼쪽 끝에 도달하면 다시 원래대로
             self.velocity = RUN_SPEED_PPS
         self.dir = clamp(-1, self.velocity, 1)
+
+
+    def get_collision(self):
+        return self.x - 20, self.y - 34, self.x + 20, self.y + 34

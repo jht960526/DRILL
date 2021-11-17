@@ -128,8 +128,8 @@ class Player:
 
     def draw(self):
         self.cur_state.draw(self)
+        draw_rectangle(*self.get_collision())
         delay(0.012)
-        #self.font.draw(self.x - 60, self.y + 50, '(Time: %3.2f)' % get_time(), (225, 225, 0))
 
 
     def player_Handle(self, event):
@@ -141,3 +141,6 @@ class Player:
         self.bIsJump = True
         self.fallSpeed = -13
         self.jumpCount += 1
+
+    def get_collision(self):
+        return self.x - 40, self.y - 50, self.x + 40, self.y + 50
