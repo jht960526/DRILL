@@ -1,6 +1,7 @@
 from pico2d import *
 
 import game_framework
+import game_world
 
 from Player import Player
 from Enemy import Enemy
@@ -17,16 +18,23 @@ backGround = None
 def enter():
     global player, enemy, grass, backGround
     backGround = Stage1()
-    player = Player()
-    enemy = Enemy()
+    game_world.add_object(backGround, 0)
+
     grass = Grass()
+    game_world.add_object(grass, 1)
+
+    player = Player()
+    game_world.add_object(player, 1)
+
+    enemy = Enemy()
+    game_world.add_object(enemy, 1)
+
+
+
+
 
 def exit():
-    global player, enemy, grass, backGround
-    del backGround
-    del player
-    del enemy
-    del grass
+    game_world.clear()
 
 def pause():
     pass
@@ -42,14 +50,14 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            player.Player_Handle(event)
+            player.player_Handle(event)
 
 def update():
-    player.Update()
+    for game_object in game_world.all_objects():
+        game_object.update()
 
 def draw():
     clear_canvas()
-    backGround.draw()
-    grass.draw()
-    player.Draw()
+    for game_object in game_world.all_objects():
+        game_object.draw()
     update_canvas()
