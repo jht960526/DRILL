@@ -143,4 +143,4 @@ class Player:
         self.jumpCount += 1
 
     def get_collision(self):
-        return self.x - 40, self.y - 50, self.x + 40, self.y + 50
+        return self.x - 30, self.y - 50, self.x + 30, self.y + 50

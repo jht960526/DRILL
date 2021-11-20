@@ -7,7 +7,7 @@ from Player import Player
 from Enemy import Enemy
 from Grass import Grass
 from BackGround import Stage1
-from  Brick import Brick
+from Brick import Brick
 
 name = "Main_State"
 

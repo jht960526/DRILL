@@ -27,9 +27,9 @@ class Enemy:
 
     def draw(self):
         if self.dir == 1:
-            self.image.clip_draw(int(self.frame) * 60, 0, 60, 87, self.x, self.y)
+            self.image.clip_draw(int(self.frame) * 40, 0, 40, 58, self.x, self.y)
         elif self.dir == -1:
-            self.image.clip_composite_draw(int(self.frame) * 60, 0, 60, 87, 0.0,'h',self.x, self.y, 60, 87)
+            self.image.clip_composite_draw(int(self.frame) * 40, 0, 40, 58, 0.0,'h',self.x, self.y, 40, 58)
         draw_rectangle(*self.get_collision())
 
     def update(self):
@@ -46,4 +46,4 @@ class Enemy:
 
 
     def get_collision(self):
-        return self.x - 20, self.y - 34, self.x + 20, self.y + 34
+        return self.x - 20, self.y - 25, self.x + 20, self.y + 25
