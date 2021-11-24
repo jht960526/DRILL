@@ -59,9 +59,9 @@ def enter():
     grass = Grass()
     game_world.add_object(grass, 0)
 
-    global balls
-    balls = [Ball() for i in range(10)] + [BigBall() for i in range(10)]
-    game_world.add_objects(balls, 1)
+    #global balls
+    #balls = [Ball() for i in range(10)] + [BigBall() for i in range(10)]
+    #game_world.add_objects(balls, 1)
     # fill here for balls
 
 

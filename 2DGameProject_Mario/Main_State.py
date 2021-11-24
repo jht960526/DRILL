@@ -21,8 +21,10 @@ def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
 
-    if bottom_a > top_b and right_a > left_b: return True
-    if bottom_a > top_b and left_a > right_b: return True
+    if bottom_a <= top_b and right_a >left_b: return True
+    if bottom_a <= top_b and left_a > right_b: return True
+
+    return False
 
 def brick_collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()

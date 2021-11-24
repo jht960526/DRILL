@@ -170,3 +170,7 @@ class Boy:
             key_event = key_event_table[(event.type, event.key)]
             self.add_event(key_event)
 
+    def set_parent(self, brick):
+        self.parent = brick
+        # 소년의 초기 위치를, 발판의 특정 위치로 가게한다.
+        self.x , self.y = brick.x, brick.y

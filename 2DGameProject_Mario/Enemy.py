@@ -17,7 +17,7 @@ FRAMES_PER_ACTION = 14
 class Enemy:
     image = None
     def __init__(self):
-        self.x, self.y = random.randint(400, 500), 90
+        self.x, self.y = random.randint(400, 500), 70
         self.dir = 1
         self.velocity = RUN_SPEED_PPS
         self.frame = 0
@@ -46,4 +46,4 @@ class Enemy:
 
 
     def get_collision(self):
-        return self.x - 20, self.y - 25, self.x + 20, self.y + 25
+        return self.x - 20, self.y - 20, self.x + 20, self.y + 20

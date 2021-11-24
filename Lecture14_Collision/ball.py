@@ -14,6 +14,7 @@ class Ball:
     def get_bb(self):
         # fill here
         return self.x - 10, self.y - 10, self.x + 10, self.y + 10
+        #return 0, 0, 0, 0
 
     def draw(self):
         self.image.draw(self.x, self.y)

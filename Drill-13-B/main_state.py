@@ -6,17 +6,14 @@ from pico2d import *
 import game_framework
 import game_world
 
+import server
+
 from boy import Boy
 from grass import Grass
 from ball import Ball
 from brick import Brick
 
 name = "MainState"
-
-boy = None
-grass = None
-balls = []
-brick = None
 
 def collide(a, b):
     # fill here
@@ -51,17 +48,15 @@ def check_side(a, b):
 
 
 def enter():
-    global boy
-    boy = Boy()
-    game_world.add_object(boy, 1)
 
-    global grass
-    grass = Grass()
-    game_world.add_object(grass, 0)
+    server.boy = Boy()
+    game_world.add_object(server.boy, 1)
 
-    global bricks
-    bricks = [Brick(300+300*i, 100+50*i) for i in range(5)]
-    game_world.add_objects(bricks, 1)
+    server.grass = Grass()
+    game_world.add_object(server.grass, 0)
+
+    server.bricks = [Brick(300+300*i, 100+50*i) for i in range(5)]
+    game_world.add_objects(server.bricks, 1)
 
 
 
@@ -84,23 +79,16 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
                 game_framework.quit()
         else:
-            boy.handle_event(event)
+            server.boy.handle_event(event)
 
 
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
 
-    for ball in balls.copy():
-        if collide(ball, grass):
-            ball.stop()
-        if collide(ball, boy):
-            balls.remove(ball)
-            game_world.remove_object(ball)
-
-    for brick in bricks:
-        if collide(boy, brick):
-            boy_l, boy_b, boy_r, boy_t = boy.get_bb()
+    for brick in server.bricks:
+        if collide(server.boy, brick):
+            boy_l, boy_b, boy_r, boy_t = server.boy.get_bb()
             brick_l, brick_b, brick_r, brick_t = brick.get_bb()
             boy.y = brick.y + 45
             # 벽돌 크기에 맞춰서 clamp인자를 적용하면 벽돌과 충돌하기 어려워서 좀 더 크게 잡음
