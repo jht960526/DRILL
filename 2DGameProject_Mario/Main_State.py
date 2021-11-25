@@ -15,7 +15,7 @@ player = None
 grass = None
 enemy = None
 backGround = None
-brick = None
+bricks = None
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
@@ -30,17 +30,19 @@ def brick_collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
 
-    if top_a > bottom_b and right_a > left_b: return True
-    if top_a > bottom_b and left_a > right_b: return True
+    if top_a >= bottom_b and right_a > left_b: return True
+    if top_a >= bottom_b and left_a > right_b: return True
+
+    return False
 
 
 def enter():
-    global player, enemy, grass, backGround
+    global player, enemy, grass, backGround, bricks
     backGround = Stage1()
     game_world.add_object(backGround, 0)
 
-    brick = Brick()
-    game_world.add_object(brick, 0)
+    bricks = [Brick() for i in range(1)]
+    game_world.add_objects(bricks, 0)
 
     grass = Grass()
     game_world.add_object(grass, 0)
@@ -78,9 +80,10 @@ def update():
         if collide(player, enemy):
             print("COLLISION")
             game_world.remove_object(enemy)
-        #if brick_collide(player, brick):
-            #print("BLICK COLLISION")
-            #game_world.remove_object(brick)
+        for brick in bricks:
+            if brick_collide(player, brick):
+                print("BLICK COLLISION")
+                game_world.remove_object(brick)
 
 def draw():
     clear_canvas()

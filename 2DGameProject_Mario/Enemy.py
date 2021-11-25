@@ -44,6 +44,5 @@ class Enemy:
             self.velocity = RUN_SPEED_PPS
         self.dir = clamp(-1, self.velocity, 1)
 
-
     def get_collision(self):
         return self.x - 20, self.y - 20, self.x + 20, self.y + 20

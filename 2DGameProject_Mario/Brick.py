@@ -18,4 +18,5 @@ class Brick:
         draw_rectangle(*self.get_collision())
 
     def get_collision(self):
+        #return self.x - 30/2, self.y, self.x + 30 / 2, self.y + 30 / 2
         return self.x - 20, self.y - 20, self.x + 20, self.y + 20
