@@ -7,7 +7,7 @@ from Player import Player
 from Enemy import Enemy
 from Grass import Grass
 from BackGround import Stage1
-from Brick import Brick
+from Brick import Brick, Brick_Q
 
 name = "Main_State"
 
@@ -16,6 +16,7 @@ grass = None
 enemies = None
 backGround = None
 bricks = None
+bricks_Q = None
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
@@ -37,12 +38,15 @@ def brick_collide(a, b):
 
 
 def enter():
-    global player, enemies, grass, backGround, bricks
+    global player, enemies, grass, backGround, bricks, bricks_Q
     backGround = Stage1()
     game_world.add_object(backGround, 0)
 
     bricks = [Brick() for i in range(1)]
     game_world.add_objects(bricks, 0)
+
+    bricks_Q = [Brick_Q() for i in range(1)]
+    game_world.add_objects(bricks_Q, 0)
 
     grass = Grass()
     game_world.add_object(grass, 0)
@@ -85,6 +89,10 @@ def update():
             if brick_collide(player, brick):
                 print("BLICK COLLISION")
                 game_world.remove_object(brick)
+        for brick_Q in bricks_Q:
+            if brick_collide(player, brick_Q):
+                print("Brick_Q Collision")
+                game_world.remove_object(brick_Q)
 
 def draw():
     clear_canvas()
