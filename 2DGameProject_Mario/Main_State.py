@@ -13,7 +13,7 @@ name = "Main_State"
 
 player = None
 grass = None
-enemy = None
+enemies = None
 backGround = None
 bricks = None
 
@@ -37,7 +37,7 @@ def brick_collide(a, b):
 
 
 def enter():
-    global player, enemy, grass, backGround, bricks
+    global player, enemies, grass, backGround, bricks
     backGround = Stage1()
     game_world.add_object(backGround, 0)
 
@@ -47,8 +47,8 @@ def enter():
     grass = Grass()
     game_world.add_object(grass, 0)
 
-    enemy = Enemy()
-    game_world.add_object(enemy, 1)
+    enemies = [Enemy() for i in range(1)]
+    game_world.add_objects(enemies, 0)
 
     player = Player()
     game_world.add_object(player, 1)
@@ -77,9 +77,10 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
-        if collide(player, enemy):
-            print("COLLISION")
-            game_world.remove_object(enemy)
+        for enemy in enemies:
+            if collide(player, enemy):
+                print("COLLISION")
+                game_world.remove_object(enemy)
         for brick in bricks:
             if brick_collide(player, brick):
                 print("BLICK COLLISION")
