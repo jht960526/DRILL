@@ -22,19 +22,36 @@ def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
 
-    if bottom_a <= top_b and right_a >left_b: return True
-    if bottom_a <= top_b and left_a > right_b: return True
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+    #if bottom_a <= top_b and right_a >left_b: return True
+    #if bottom_a <= top_b and left_a > right_b: return True
 
-    return False
+    return True
+
+def side_collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_collision()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a + 8 > right_b: return False
+    if right_a < left_b + 8: return False
+    return True
 
 def brick_collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
 
-    if top_a >= bottom_b and right_a > left_b: return True
-    if top_a >= bottom_b and left_a > right_b: return True
 
-    return False
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+    #if top_a == bottom_b and right_a > left_b: return True
+   # if top_a == bottom_b and left_a > right_b: return True
+
+    return True
 
 
 def enter():
@@ -85,6 +102,12 @@ def update():
             if collide(player, enemy):
                 print("COLLISION")
                 game_world.remove_object(enemy)
+                #p_l, p_b, p_r, p_t = player.get_collision()
+               #e_l, e_b, e_r, e_t = enemy.get_collision()
+                #if e_l == p_r and p_l == e_r:
+                    #print("COLLISION")
+                    #game_world.remove_object(enemy)
+
         for brick in bricks:
             if brick_collide(player, brick):
                 print("BLICK COLLISION")
