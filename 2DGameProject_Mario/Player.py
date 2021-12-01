@@ -143,4 +143,7 @@ class Player:
         self.jumpCount += 1
 
     def get_collision(self):
-        return self.x - 30, self.y - 50, self.x + 30, self.y + 50
+        return self.x - 28, self.y - 51, self.x + 28, self.y + 51
+
+    def get_mario_pos(self):
+        return self.x - 14, self.y - 51, self.x + 14, self.y - (51 // 2)

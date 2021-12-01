@@ -3,6 +3,7 @@ import game_world
 import random
 
 from pico2d import *
+from Player import Player
 
 PIXEL_PER_METER = (30.0/0.3)
 RUN_SPEED_KMPH = 13.0
@@ -45,4 +46,7 @@ class Enemy:
         self.dir = clamp(-1, self.velocity, 1)
 
     def get_collision(self):
-        return self.x - 20, self.y - 20, self.x + 20, self.y + 20
+        return self.x - 20, self.y - 22, self.x + 20, self.y + 22
+
+    def get_enemy_pos(self):
+        return self.x - 10, self.y + (29 // 2), self.x + 10, self.y + 29

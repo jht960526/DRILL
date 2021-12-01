@@ -31,6 +31,30 @@ def collide(a, b):
 
     return True
 
+def mario_enemy_side(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_collision()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+def mario_enemy_head(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_mario_pos()
+    left_b, bottom_b, right_b, top_b = b.get_enemy_pos()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+    #if bottom_a <= top_b and right_a > left_b: return True
+    #if bottom_a == top_b and left_a > right_b: return True
+
+    return True
+
 def side_collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
@@ -42,7 +66,6 @@ def side_collide(a, b):
 def brick_collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
-
 
     if left_a > right_b: return False
     if right_a < left_b: return False
@@ -98,20 +121,19 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
+        print(player.y)
+
         for enemy in enemies:
             if collide(player, enemy):
-                print("COLLISION")
-                game_world.remove_object(enemy)
-                #p_l, p_b, p_r, p_t = player.get_collision()
-               #e_l, e_b, e_r, e_t = enemy.get_collision()
-                #if e_l == p_r and p_l == e_r:
-                    #print("COLLISION")
-                    #game_world.remove_object(enemy)
+                if mario_enemy_head(player, enemy):
+                    print("COLLISION")
+                    game_world.remove_object(enemy)
 
         for brick in bricks:
             if brick_collide(player, brick):
                 print("BLICK COLLISION")
                 game_world.remove_object(brick)
+
         for brick_Q in bricks_Q:
             if brick_collide(player, brick_Q):
                 print("Brick_Q Collision")
