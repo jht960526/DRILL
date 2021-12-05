@@ -26,19 +26,6 @@ def collide(a, b):
     if right_a < left_b: return False
     if bottom_a > top_b: return False
     if top_a < bottom_b: return False
-    #if bottom_a <= top_b and right_a >left_b: return True
-    #if bottom_a <= top_b and left_a > right_b: return True
-
-    return True
-
-def mario_enemy_side(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_collision()
-    left_b, bottom_b, right_b, top_b = b.get_collision()
-
-    if left_a > right_b: return False
-    if right_a < left_b: return False
-    if bottom_a > top_b: return False
-    if top_a < bottom_b: return False
 
     return True
 
@@ -50,8 +37,6 @@ def mario_enemy_head(a, b):
     if right_a < left_b: return False
     if bottom_a > top_b: return False
     if top_a < bottom_b: return False
-    #if bottom_a <= top_b and right_a > left_b: return True
-    #if bottom_a == top_b and left_a > right_b: return True
 
     return True
 
@@ -71,8 +56,6 @@ def brick_collide(a, b):
     if right_a < left_b: return False
     if bottom_a > top_b: return False
     if top_a < bottom_b: return False
-    #if top_a == bottom_b and right_a > left_b: return True
-   # if top_a == bottom_b and left_a > right_b: return True
 
     return True
 
@@ -121,13 +104,18 @@ def handle_events():
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
-        print(player.y)
 
         for enemy in enemies:
             if collide(player, enemy):
                 if mario_enemy_head(player, enemy):
-                    print("COLLISION")
-                    game_world.remove_object(enemy)
+                    enemy.dead()
+                    if player.y > enemy.y:
+                        player.jump()
+                        print("Jump")
+            if enemy.deadTime >= 1:
+                game_world.remove_object(enemy)
+                print("delete")
+
 
         for brick in bricks:
             if brick_collide(player, brick):

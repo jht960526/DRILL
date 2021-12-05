@@ -13,6 +13,7 @@ class TileBackground:
         self.h = 600 * 3
 
         # fill here
+        self.tiles = [[load_image('cube%d%d.png' % (x, y)) for x in range(3)] for y in range(3)]
 
 
     def update(self):
@@ -27,7 +28,17 @@ class TileBackground:
                                    self.h - self.canvas_height)
 
         # fill here
+        tile_left = self.window_left // 800
+        tile_right = min((self.window_left + self.canvas_width) // 800 + 1, 3)
+        left_offset = self.window_left % 800
 
+        tile_bottom = self.window_bottom // 600
+        tile_top = min((self.window_bottom + self.canvas_height) // 600 + 1, 3)
+        bottom_offset = self.window_bottom % 600
+
+        for ty in range(tile_bottom, tile_top):
+            for tx in range(tile_left, tile_right):
+                self.tiles[ty][tx].draw_to_origin(-left_offset + (tx - tile_left) * 800, -bottom_offset + (ty - tile_bottom) * 600)
 
 class FixedBackground:
 
@@ -41,10 +52,13 @@ class FixedBackground:
 
     def draw(self):
         # fill here
+        self.image.clip_draw_to_origin(self.window_left, self.window_bottom, server.background.canvas_width, server.background.canvas_height, 0, 0)
         pass
 
     def update(self):
         # fill here
+        self.window_left = clamp(0, int(server.boy.x) - server.background.canvas_width // 2, server.background.w - server.background.canvas_width)
+        self.window_bottom = clamp(0, int(server.boy.y) - server.background.canvas_height // 2, server.background.h - server.background.canvas_height)
         pass
 
     def handle_event(self, event):
