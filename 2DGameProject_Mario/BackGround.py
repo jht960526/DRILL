@@ -7,8 +7,8 @@ class Stage1:
         self.image = load_image('Resource/background_level1.png')
         self.canvas_width = get_canvas_width()
         self.canvas_height = get_canvas_height()
-        self.w = 800 * 3
-        self.h = 600
+        self.w = self.image.w
+        self.h = self.image.h
 
     def update(self):
         self.window_left = clamp(0, int(server.player.x) - server.backGround.canvas_width // 2,
