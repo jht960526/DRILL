@@ -2,21 +2,15 @@ from pico2d import *
 
 import game_framework
 import game_world
+import server
 
 from Player import Player
 from Enemy import Enemy
-from Grass import Grass
 from BackGround import Stage1
 from Brick import Brick, Brick_Q
 
 name = "Main_State"
 
-player = None
-grass = None
-enemies = None
-backGround = None
-bricks = None
-bricks_Q = None
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
@@ -59,27 +53,22 @@ def brick_collide(a, b):
 
     return True
 
-
 def enter():
-    global player, enemies, grass, backGround, bricks, bricks_Q
-    backGround = Stage1()
-    game_world.add_object(backGround, 0)
+    global grass
+    server.backGround = Stage1()
+    game_world.add_object(server.backGround, 0)
 
-    bricks = [Brick() for i in range(1)]
-    game_world.add_objects(bricks, 0)
+    server.bricks = [Brick() for i in range(1)]
+    game_world.add_objects(server.bricks, 0)
 
-    bricks_Q = [Brick_Q() for i in range(1)]
-    game_world.add_objects(bricks_Q, 0)
+    server.bricks_Q = [Brick_Q() for i in range(1)]
+    game_world.add_objects(server.bricks_Q, 0)
 
-    grass = Grass()
-    game_world.add_object(grass, 0)
+    server.enemies = [Enemy() for i in range(1)]
+    game_world.add_objects(server.enemies, 0)
 
-    enemies = [Enemy() for i in range(1)]
-    game_world.add_objects(enemies, 0)
-
-    player = Player()
-    game_world.add_object(player, 1)
-
+    server.player = Player()
+    game_world.add_object(server.player, 1)
 
 
 def exit():
@@ -99,36 +88,36 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            player.player_Handle(event)
+            server.player.player_Handle(event)
 
 def update():
     for game_object in game_world.all_objects():
         game_object.update()
 
-        for enemy in enemies:
-            if collide(player, enemy):
-                if mario_enemy_head(player, enemy):
+        for enemy in server.enemies:
+            if collide(server.player, enemy):
+                if mario_enemy_head(server.player, enemy):
                     enemy.dead()
-                    if player.y > enemy.y:
-                        player.jump()
+                    if server.player.y > enemy.y:
+                        server.player.jump()
                         print("Jump")
             if enemy.deadTime >= 1:
                 game_world.remove_object(enemy)
-                enemies.remove(enemy)
+                server.enemies.remove(enemy)
                 print("delete")
 
 
-        for brick in bricks:
-            if brick_collide(player, brick):
+        for brick in server.bricks:
+            if brick_collide(server.player, brick):
                 print("BLICK COLLISION")
                 game_world.remove_object(brick)
-                bricks.remove(brick)
+                server.bricks.remove(brick)
 
-        for brick_Q in bricks_Q:
-            if brick_collide(player, brick_Q):
+        for brick_Q in server.bricks_Q:
+            if brick_collide(server.player, brick_Q):
                 print("Brick_Q Collision")
                 game_world.remove_object(brick_Q)
-                bricks_Q.remove(brick_Q)
+                server.bricks_Q.remove(brick_Q)
 
 def draw():
     clear_canvas()

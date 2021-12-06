@@ -20,7 +20,7 @@ class Enemy:
     image = None
 
     def __init__(self):
-        self.x, self.y = random.randint(400, 500), 70
+        self.x, self.y = random.randint(400, 500), 100
         self.dir = 1
         self.velocity = RUN_SPEED_PPS
         self.frame = 0

@@ -3,6 +3,7 @@ import random
 from pico2d import *
 
 import game_world
+import server
 
 PIXEL_PER_METER = (10.0/ 0.3)
 RUN_SPEED_KMPH = 20.0
@@ -47,10 +48,11 @@ class IdleState:
         player.timer -= 1
 
     def draw(player):
+        cx, cy = player.x - server.backGround.window_left, player.y - server.backGround.window_bottom
         if player.dir == 1:
-            player.idleImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
+            player.idleImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, cx, cy)
         else:
-            player.idleImage[1].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
+            player.idleImage[1].clip_draw(int(player.frame) * 90, 0, 80, 102, cx, cy)
 
 class RunState:
 
@@ -74,13 +76,14 @@ class RunState:
     def do(player):
         player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 9
         player.x += player.velocity * game_framework.frame_time
-        player.x = clamp(25, player.x, 1600 - 25)
+        player.x = clamp(25, player.x, 2400 - 25)
 
     def draw(player):
+        cx, cy = player.x - server.backGround.window_left, player.y - server.backGround.window_bottom
         if player.dir == 1:
-            player.runImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
+            player.runImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, cx, cy)
         else:
-            player.runImage[1].clip_draw(int(player.frame) * 90, 0, 80, 102, player.x, player.y)
+            player.runImage[1].clip_draw(int(player.frame) * 90, 0, 80, 102, cx, cy)
 
 
 next_state_table = {
@@ -92,7 +95,8 @@ class Player:
 
     def __init__(self):
         # Status
-        self.x, self.y = 10, 90
+        self.x, self.y = 10, 133
+        self.cx, self.cy = 0, 0
         self.fallSpeed = 0
         self.velocity = 10
         self.frame = 0
@@ -122,8 +126,13 @@ class Player:
             self.y += -1 * self.fallSpeed
             self.fallSpeed += 1
             delay(0.003)
-            if self.y <= 90:
-                self.y = 90
+            if self.y <= 133:
+                self.y = 133
+
+        self.x = clamp(0, self.x, server.backGround.w - 1)
+        self.y = clamp(0, self.y, server.backGround.h - 1)
+        self.cx, self.cy = self.x - server.backGround.window_left, self.y - server.backGround.window_bottom
+
 
 
     def draw(self):
@@ -143,7 +152,7 @@ class Player:
         self.jumpCount += 1
 
     def get_collision(self):
-        return self.x - 28, self.y - 51, self.x + 28, self.y + 51
+        return self.cx - 28, self.cy - 51, self.cx + 28, self.cy + 51
 
     def get_mario_pos(self):
-        return self.x - 14, self.y - 51, self.x + 14, self.y - (51 // 2)
+        return self.cx - 14, self.cy - 51, self.cx + 14, self.cy - (51 // 2)
