@@ -114,6 +114,7 @@ def update():
                         print("Jump")
             if enemy.deadTime >= 1:
                 game_world.remove_object(enemy)
+                enemies.remove(enemy)
                 print("delete")
 
 
@@ -121,11 +122,13 @@ def update():
             if brick_collide(player, brick):
                 print("BLICK COLLISION")
                 game_world.remove_object(brick)
+                bricks.remove(brick)
 
         for brick_Q in bricks_Q:
             if brick_collide(player, brick_Q):
                 print("Brick_Q Collision")
                 game_world.remove_object(brick_Q)
+                bricks_Q.remove(brick_Q)
 
 def draw():
     clear_canvas()

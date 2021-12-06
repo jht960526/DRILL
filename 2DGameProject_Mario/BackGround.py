@@ -2,7 +2,7 @@ from pico2d import *
 
 class Stage1:
     def __init__(self):
-        self.image = load_image('Resource/MarioBackground1.png')
+        self.image = load_image('Resource/background_level1.png')
 
     def update(self):
         pass
