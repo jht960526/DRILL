@@ -1,8 +1,8 @@
 from pico2d import *
 
-import game_framework
+import Game_framework
 import Main_State
-import game_world
+import Game_world
 
 name = "TitleState"
 image = None
@@ -23,16 +23,16 @@ def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            game_framework.quit()
+            Game_framework.quit()
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-                game_framework.quit()
+                Game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_SPACE):
-                game_framework.change_state(Main_State)
+                Game_framework.change_state(Main_State)
     pass
 
 def update():
-    for game_object in game_world.all_objects():
+    for game_object in Game_world.all_objects():
         game_object.update()
 
 

@@ -1,13 +1,14 @@
 from pico2d import *
 
-import game_framework
-import game_world
-import server
+import Game_framework
+import Game_world
+import Server
 
 from Player import Player
 from Enemy import Enemy
 from BackGround import Stage1
 from Brick import Brick, Brick_Q
+from Collision_Box import Collision_Box
 
 name = "Main_State"
 
@@ -34,14 +35,6 @@ def mario_enemy_head(a, b):
 
     return True
 
-def side_collide(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_collision()
-    left_b, bottom_b, right_b, top_b = b.get_collision()
-
-    if left_a + 8 > right_b: return False
-    if right_a < left_b + 8: return False
-    return True
-
 def brick_collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
     left_b, bottom_b, right_b, top_b = b.get_collision()
@@ -53,26 +46,85 @@ def brick_collide(a, b):
 
     return True
 
+def mario_left_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_mario_left_box()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+def mario_right_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_mario_right_box()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+def mario_bottom_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_mario_bottom_box()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+def mario_top_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_mario_top_box()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+def cylinder_colliside(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_collision()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+
 def enter():
     global grass
-    server.backGround = Stage1()
-    game_world.add_object(server.backGround, 0)
+    Server.backGround = Stage1()
+    Game_world.add_object(Server.backGround, 0)
 
-    server.bricks = [Brick() for i in range(1)]
-    game_world.add_objects(server.bricks, 0)
+    Server.bricks = [Brick() for i in range(1)]
+    Game_world.add_objects(Server.bricks, 0)
 
-    server.bricks_Q = [Brick_Q() for i in range(1)]
-    game_world.add_objects(server.bricks_Q, 0)
+    Server.bricks_Q = [Brick_Q() for i in range(1)]
+    Game_world.add_objects(Server.bricks_Q, 0)
 
-    server.enemies = [Enemy() for i in range(1)]
-    game_world.add_objects(server.enemies, 0)
+    Server.collision_boxs = [Collision_Box() for i in range(1)]
+    Game_world.add_objects(Server.collision_boxs, 0)
 
-    server.player = Player()
-    game_world.add_object(server.player, 1)
+    Server.enemies = [Enemy() for i in range(1)]
+    Game_world.add_objects(Server.enemies, 0)
+
+    Server.player = Player()
+    Game_world.add_object(Server.player, 1)
 
 
 def exit():
-    game_world.clear()
+    Game_world.clear()
 
 def pause():
     pass
@@ -84,43 +136,78 @@ def handle_events():
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
-            game_framework.quit()
+            Game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
+            Game_framework.quit()
         else:
-            server.player.player_Handle(event)
+            Server.player.player_Handle(event)
 
 def update():
-    for game_object in game_world.all_objects():
+    for game_object in Game_world.all_objects():
         game_object.update()
 
-        for enemy in server.enemies:
-            if collide(server.player, enemy):
-                if mario_enemy_head(server.player, enemy):
+        for enemy in Server.enemies:
+            if collide(Server.player, enemy):
+                if mario_enemy_head(Server.player, enemy):
                     enemy.dead()
-                    if server.player.y > enemy.y:
-                        server.player.jump()
+                    if Server.player.y > enemy.y:
+                        Server.player.jump()
                         print("Jump")
             if enemy.deadTime >= 1:
-                game_world.remove_object(enemy)
-                server.enemies.remove(enemy)
+                Game_world.remove_object(enemy)
+                Server.enemies.remove(enemy)
                 print("delete")
 
-
-        for brick in server.bricks:
-            if brick_collide(server.player, brick):
+        for brick in Server.bricks:
+            if mario_right_collision(Server.player, brick):
                 print("BLICK COLLISION")
-                game_world.remove_object(brick)
-                server.bricks.remove(brick)
+                Server.player.x = brick.x - 65
 
-        for brick_Q in server.bricks_Q:
-            if brick_collide(server.player, brick_Q):
-                print("Brick_Q Collision")
-                game_world.remove_object(brick_Q)
-                server.bricks_Q.remove(brick_Q)
+            if mario_top_collision(Server.player, brick):
+                Game_world.remove_object(brick)
+                Server.bricks.remove(brick)
+
+            if mario_left_collision(Server.player, brick):
+                print("BLICK COLLISION")
+                Server.player.x = brick.x + 65
+
+            if mario_bottom_collision(Server.player, brick):
+                print("b_collision_box Collision")
+                Server.player.fallSpeed = 0
+
+        for brick_Q in Server.bricks_Q:
+            if mario_right_collision(Server.player, brick_Q):
+                print("BLICK COLLISION")
+                Server.player.x = brick.x - 65
+
+            if mario_top_collision(Server.player, brick_Q):
+                Game_world.remove_object(brick_Q)
+                Server.bricks_Q.remove(brick_Q)
+
+            if mario_left_collision(Server.player, brick_Q):
+                print("BLICK COLLISION")
+                Server.player.x = brick.x + 65
+
+            if mario_bottom_collision(Server.player, brick_Q):
+                print("b_collision_box Collision")
+                Server.player.fallSpeed = 0
+
+        for collision_box in Server.collision_boxs:
+            if mario_left_collision(Server.player, collision_box):
+                print("l_collision_box Collision")
+                Server.player.x = collision_box.x + 80
+
+            if mario_right_collision(Server.player, collision_box):
+                print("r_collision_box Collision")
+                Server.player.x = collision_box.x - 80
+
+            if mario_bottom_collision(Server.player, collision_box):
+                print("b_collision_box Collision")
+                Server.player.fallSpeed = 0
+
 
 def draw():
     clear_canvas()
-    for game_object in game_world.all_objects():
+    for game_object in Game_world.all_objects():
         game_object.draw()
     update_canvas()

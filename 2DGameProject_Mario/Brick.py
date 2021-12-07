@@ -1,5 +1,5 @@
-import game_framework
-import server
+import Game_framework
+import Server
 
 from pico2d import *
 
@@ -24,7 +24,7 @@ class Brick:
             Brick.image = load_image('Resource/brick1.png')
 
     def update(self):
-        self.cx, self.cy = self.x - server.backGround.window_left, self.y - server.backGround.window_bottom
+        self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom
         pass
 
     def draw(self):
@@ -50,8 +50,8 @@ class Brick_Q:
         draw_rectangle(*self.get_collision())
 
     def update(self):
-        self.cx, self.cy = self.x - server.backGround.window_left, self.y - server.backGround.window_bottom
-        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 3
 
     def get_collision(self):
         return self.cx - 20, self.cy - 20, self.cx + 20, self.cy + 20

@@ -1,5 +1,5 @@
 from pico2d import *
-import server
+import Server
 from Player import Player
 
 class Stage1:
@@ -11,15 +11,15 @@ class Stage1:
         self.h = self.image.h
 
     def update(self):
-        self.window_left = clamp(0, int(server.player.x) - server.backGround.canvas_width // 2,
-                                 server.backGround.w - server.backGround.canvas_width)
-        self.window_bottom = clamp(0, int(server.player.y) - server.backGround.canvas_height // 2,
-                                   server.backGround.h - server.backGround.canvas_height)
+        self.window_left = clamp(0, int(Server.player.x) - Server.backGround.canvas_width // 2,
+                                 Server.backGround.w - Server.backGround.canvas_width)
+        self.window_bottom = clamp(0, int(Server.player.y) - Server.backGround.canvas_height // 2,
+                                   Server.backGround.h - Server.backGround.canvas_height)
         pass
 
     def draw(self):
-        self.image.clip_draw_to_origin(self.window_left, self.window_bottom, server.backGround.canvas_width,
-                                       server.backGround.canvas_height, 0, 0)
+        self.image.clip_draw_to_origin(self.window_left, self.window_bottom, Server.backGround.canvas_width,
+                                       Server.backGround.canvas_height, 0, 0)
         #self.image.draw(800//2, 600//2)
 
     def handle_event(self, event):

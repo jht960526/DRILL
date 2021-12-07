@@ -1,7 +1,7 @@
-import game_framework
-import game_world
+import Game_framework
+import Game_world
 import random
-import server
+import Server
 
 from pico2d import *
 from Player import Player
@@ -43,13 +43,13 @@ class Enemy:
             self.image.clip_draw(80, 0, 40, 58, self.cx, self.cy)
 
     def update(self):
-        self.cx, self.cy = self.x - server.backGround.window_left, self.y - server.backGround.window_bottom
+        self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom
         if self.bDead:
-            self.deadTime += game_framework.frame_time
+            self.deadTime += Game_framework.frame_time
             print("time start")
 
-        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
-        self.x += self.velocity * game_framework.frame_time
+        self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 2
+        self.x += self.velocity * Game_framework.frame_time
 
         if self.x >= 500:
             # 오른쪽 끝에 도달하면 계속 -속도로 바꿈
@@ -61,11 +61,9 @@ class Enemy:
         self.dir = clamp(-1, self.velocity, 1)
 
 
-
     def dead(self):
         self.bDead = True
         self.velocity = 0
-
 
     def get_collision(self):
         return self.cx - 20, self.cy - 22, self.cx + 20, self.cy + 22

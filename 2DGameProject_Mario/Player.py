@@ -1,9 +1,9 @@
-import game_framework
+import Game_framework
 import random
 from pico2d import *
 
-import game_world
-import server
+import Game_world
+import Server
 
 PIXEL_PER_METER = (10.0/ 0.3)
 RUN_SPEED_KMPH = 20.0
@@ -44,11 +44,11 @@ class IdleState:
         pass
 
     def do(player):
-        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 9
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 9
         player.timer -= 1
 
     def draw(player):
-        cx, cy = player.x - server.backGround.window_left, player.y - server.backGround.window_bottom
+        cx, cy = player.x - Server.backGround.window_left, player.y - Server.backGround.window_bottom
         if player.dir == 1:
             player.idleImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, cx, cy)
         else:
@@ -74,12 +74,12 @@ class RunState:
         pass
 
     def do(player):
-        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 9
-        player.x += player.velocity * game_framework.frame_time
+        player.frame = (player.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 9
+        player.x += player.velocity * Game_framework.frame_time
         player.x = clamp(25, player.x, 2400 - 25)
 
     def draw(player):
-        cx, cy = player.x - server.backGround.window_left, player.y - server.backGround.window_bottom
+        cx, cy = player.x - Server.backGround.window_left, player.y - Server.backGround.window_bottom
         if player.dir == 1:
             player.runImage[0].clip_draw(int(player.frame) * 90, 0, 80, 102, cx, cy)
         else:
@@ -129,10 +129,9 @@ class Player:
             if self.y <= 133:
                 self.y = 133
 
-        self.x = clamp(0, self.x, server.backGround.w - 1)
-        self.y = clamp(0, self.y, server.backGround.h - 1)
-        self.cx, self.cy = self.x - server.backGround.window_left, self.y - server.backGround.window_bottom
-
+        self.x = clamp(0, self.x, Server.backGround.w - 1)
+        self.y = clamp(0, self.y, Server.backGround.h - 1)
+        self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom
 
 
     def draw(self):
@@ -156,3 +155,15 @@ class Player:
 
     def get_mario_pos(self):
         return self.cx - 14, self.cy - 51, self.cx + 14, self.cy - (51 // 2)
+
+    def get_mario_left_box(self):
+        return self.cx - 40, self.cy -41, self.cx - 30, self.cy + 41
+
+    def get_mario_right_box(self):
+        return self.cx + 30, self.cy - 41, self.cx + 40, self.cy + 41
+
+    def get_mario_bottom_box(self):
+        return self.cx - 35, self.cy - 51, self.cx + 35, self.cy - 41
+
+    def get_mario_top_box(self):
+        return self.cx - 35, self.cy + 41, self.cx + 35, self.cy + 51

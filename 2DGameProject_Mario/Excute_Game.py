@@ -1,5 +1,5 @@
 import random
-import game_framework
+import Game_framework
 from pico2d import *
 from Enemy import Enemy
 
