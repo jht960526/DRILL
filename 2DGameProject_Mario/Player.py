@@ -157,10 +157,10 @@ class Player:
         return self.cx - 14, self.cy - 51, self.cx + 14, self.cy - (51 // 2)
 
     def get_mario_left_box(self):
-        return self.cx - 40, self.cy -41, self.cx - 30, self.cy + 41
+        return self.cx - 45, self.cy -41, self.cx - 30, self.cy + 41
 
     def get_mario_right_box(self):
-        return self.cx + 30, self.cy - 41, self.cx + 40, self.cy + 41
+        return self.cx + 30, self.cy - 41, self.cx + 45, self.cy + 41
 
     def get_mario_bottom_box(self):
         return self.cx - 35, self.cy - 51, self.cx + 35, self.cy - 41

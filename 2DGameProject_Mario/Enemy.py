@@ -21,7 +21,7 @@ class Enemy:
     image = None
 
     def __init__(self):
-        self.x, self.y = random.randint(400, 500), 100
+        self.x, self.y = random.randint(500, 600), 100
         self.dir = 1
         self.velocity = RUN_SPEED_PPS
         self.frame = 0
@@ -51,11 +51,11 @@ class Enemy:
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 2
         self.x += self.velocity * Game_framework.frame_time
 
-        if self.x >= 500:
+        if self.x >= 600:
             # 오른쪽 끝에 도달하면 계속 -속도로 바꿈
             self.velocity = -RUN_SPEED_PPS
 
-        elif self.x <= 400:
+        elif self.x <= 500:
             # 왼쪽 끝에 도달하면 다시 원래대로
             self.velocity = RUN_SPEED_PPS
         self.dir = clamp(-1, self.velocity, 1)

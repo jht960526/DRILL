@@ -24,17 +24,6 @@ def collide(a, b):
 
     return True
 
-def mario_enemy_head(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_mario_pos()
-    left_b, bottom_b, right_b, top_b = b.get_enemy_pos()
-
-    if left_a > right_b: return False
-    if right_a < left_b: return False
-    if bottom_a > top_b: return False
-    if top_a < bottom_b: return False
-
-    return True
-
 def mario_left_collision(a, b):
     left_a, bottom_a, right_a, top_a = a.get_mario_left_box()
     left_b, bottom_b, right_b, top_b = b.get_collision()
@@ -136,16 +125,24 @@ def update():
         game_object.update()
 
         for enemy in Server.enemies:
-            if collide(Server.player, enemy):
-                if mario_enemy_head(Server.player, enemy):
-                    enemy.dead()
-                    if Server.player.y > enemy.y:
-                        Server.player.jump()
-                        print("Jump")
+            if mario_bottom_collision(Server.player, enemy):
+                enemy.dead()
+                if Server.player.y > enemy.y:
+                    Server.player.jump()
+                    print("Jump")
+
             if enemy.deadTime >= 1:
                 Game_world.remove_object(enemy)
                 Server.enemies.remove(enemy)
                 print("delete")
+
+            if mario_right_collision(Server.player, enemy):
+                print("enemy COLLISION")
+                Server.player.x = enemy.x - 80
+
+            if mario_left_collision(Server.player, enemy):
+                print("enemy COLLISION")
+                Server.player.x = enemy.x + 80
 
         for brick in Server.bricks:
             if mario_right_collision(Server.player, brick):
@@ -165,7 +162,6 @@ def update():
 
         for brick_Q in Server.bricks_Q:
             if mario_right_collision(Server.player, brick_Q):
-                print("BLICK COLLISION")
                 Server.player.x = brick_Q.x - 65
 
             if mario_top_collision(Server.player, brick_Q):
@@ -174,24 +170,19 @@ def update():
 
 
             if mario_left_collision(Server.player, brick_Q):
-                print("BLICK COLLISION")
                 Server.player.x = brick_Q.x + 65
 
             if mario_bottom_collision(Server.player, brick_Q):
-                print("b_collision_box Collision")
                 Server.player.fallSpeed = 0
 
         for collision_box in Server.collision_boxs:
             if mario_left_collision(Server.player, collision_box):
-                print("l_collision_box Collision")
                 Server.player.x = collision_box.x + 80
 
             if mario_right_collision(Server.player, collision_box):
-                print("r_collision_box Collision")
                 Server.player.x = collision_box.x - 80
 
             if mario_bottom_collision(Server.player, collision_box):
-                print("b_collision_box Collision")
                 Server.player.fallSpeed = 0
 
 
