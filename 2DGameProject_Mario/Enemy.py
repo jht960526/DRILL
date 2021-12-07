@@ -20,8 +20,8 @@ class Enemy:
 
     image = None
 
-    def __init__(self):
-        self.x, self.y = random.randint(500, 600), 100
+    def __init__(self, x, y):
+        self.x, self.y = x, y
         self.dir = 1
         self.velocity = RUN_SPEED_PPS
         self.frame = 0
@@ -39,6 +39,8 @@ class Enemy:
         elif self.dir == -1:
             self.image.clip_composite_draw(int(self.frame) * 40, 0, 40, 58, 0.0, 'h', self.cx, self.cy, 40, 58)
         draw_rectangle(*self.get_collision())
+        draw_rectangle(*self.get_enemy_left())
+        draw_rectangle(*self.get_enemy_right())
         if self.bDead:
             self.image.clip_draw(80, 0, 40, 58, self.cx, self.cy)
 
@@ -50,14 +52,6 @@ class Enemy:
 
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 2
         self.x += self.velocity * Game_framework.frame_time
-
-        if self.x >= 600:
-            # 오른쪽 끝에 도달하면 계속 -속도로 바꿈
-            self.velocity = -RUN_SPEED_PPS
-
-        elif self.x <= 500:
-            # 왼쪽 끝에 도달하면 다시 원래대로
-            self.velocity = RUN_SPEED_PPS
         self.dir = clamp(-1, self.velocity, 1)
 
 
@@ -70,3 +64,14 @@ class Enemy:
 
     def get_enemy_pos(self):
         return self.cx - 10, self.cy + (29 // 2), self.cx + 10, self.cy + 29
+
+    def get_enemy_left(self):
+        return self.cx - 25, self.cy - 23, self.cx - 15, self.cy + 23
+
+    def get_enemy_right(self):
+        return self.cx + 15, self.cy - 23, self.cx + 25, self.cy + 23
+
+    def setup():
+        Server.enemies = [Enemy(1100, 100),
+                          Enemy(1500, 100),
+                          Enemy(1850, 100)]

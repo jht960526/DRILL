@@ -172,11 +172,83 @@ def cylinder_colliside(a, b):
 
     return True
 
+## enemy_left_collision
+def enemy_left_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_enemy_left()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+## enemy_right_collision
+def enemy_right_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_enemy_right()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+## enemy_left_collision2
+def enemy_left_collision2(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_enemy_left()
+    left_b, bottom_b, right_b, top_b = b.get_collision2()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+## enemy_right_collision2
+def enemy_right_collision2(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_enemy_right()
+    left_b, bottom_b, right_b, top_b = b.get_collision2()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+## enemy_left_collision3
+def enemy_left_collision3(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_enemy_left()
+    left_b, bottom_b, right_b, top_b = b.get_collision3()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
+## enemy_right_collision3
+def enemy_right_collision3(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_enemy_right()
+    left_b, bottom_b, right_b, top_b = b.get_collision3()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
 
 def enter():
     Collision_Box.setup()
     Collision_Box2.setup()
     Collision_Box3.setup()
+    Enemy.setup()
 
     #stage1
     Server.backGround = Stage1()
@@ -191,12 +263,12 @@ def enter():
     Game_world.add_objects(Server.bricks_Q, 0)
 
     # Collision_Box
-    #Server.collision_boxs = [Collision_Box() for i in range(1)]
     Game_world.add_objects(Server.collision_boxs, 0)
     Game_world.add_objects(Server.collision_boxs2, 0)
     Game_world.add_objects(Server.collision_boxs3, 0)
 
-    Server.enemies = [Enemy() for i in range(1)]
+    # Enemy
+    #Server.enemies = [Enemy() for i in range(1)]
     Game_world.add_objects(Server.enemies, 0)
 
     Server.player = Player()
@@ -225,6 +297,7 @@ def handle_events():
 def update():
     for game_object in Game_world.all_objects():
         game_object.update()
+        print(Server.player.x)
 
         # enemy
         for enemy in Server.enemies:
@@ -240,28 +313,53 @@ def update():
                 print("delete")
 
             if mario_right_collision(Server.player, enemy):
-                print("enemy COLLISION")
                 Server.player.x = enemy.x - 80
 
             if mario_left_collision(Server.player, enemy):
-                print("enemy COLLISION")
                 Server.player.x = enemy.x + 80
+
+            # enemy collision_box1
+            for collision_box in Server.collision_boxs:
+                if enemy_left_collision(enemy, collision_box):
+                    enemy.x = collision_box.x + 90
+                    enemy.velocity *= -1
+
+                if enemy_right_collision(enemy, collision_box):
+                    enemy.x = collision_box.x - 90
+                    enemy.velocity *= -1
+
+            # enemy collision_box2
+            for collision_box2 in Server.collision_boxs2:
+                if enemy_left_collision2(enemy, collision_box2):
+                    enemy.x = collision_box2.x + 90
+                    enemy.velocity *= -1
+
+                if enemy_right_collision2(enemy, collision_box2):
+                    enemy.x = collision_box2.x - 90
+                    enemy.velocity *= -1
+
+            # enemy collision_box3
+            for collision_box3 in Server.collision_boxs3:
+                if enemy_left_collision3(enemy, collision_box3):
+                    enemy.x = collision_box3.x + 90
+                    enemy.velocity *= -1
+
+                if enemy_right_collision3(enemy, collision_box3):
+                    enemy.x = collision_box3.x - 90
+                    enemy.velocity *= -1
 
         # brick
         for brick in Server.bricks:
             if mario_right_collision(Server.player, brick):
-                print("BLICK COLLISION")
                 Server.player.x = brick.x - 65
 
             if mario_top_collision(Server.player, brick):
                 Server.player.y = brick.y - 80
 
             if mario_left_collision(Server.player, brick):
-                print("BLICK COLLISION")
                 Server.player.x = brick.x + 65
 
             if mario_bottom_collision(Server.player, brick):
-                print("b_collision_box Collision")
                 Server.player.fallSpeed = 0
 
         # brick_Q

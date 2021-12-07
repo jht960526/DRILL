@@ -95,7 +95,7 @@ class Player:
 
     def __init__(self):
         # Status
-        self.x, self.y = 10, 133
+        self.x, self.y = 800, 133
         self.cx, self.cy = 0, 0
         self.fallSpeed = 0
         self.velocity = 10
