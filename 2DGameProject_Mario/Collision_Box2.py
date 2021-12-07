@@ -3,7 +3,7 @@ import Server
 
 from pico2d import *
 
-class Collision_Box:
+class Collision_Box2:
     def __init__(self, x, y):
         self.x, self.y = x, y
         self.cx, self.cy = self.x, self.y
@@ -13,10 +13,10 @@ class Collision_Box:
         pass
 
     def draw(self):
-        draw_rectangle(*self.get_collision())
+        draw_rectangle(*self.get_collision2())
 
-    def get_collision(self):
-        return self.cx - 35, self.cy - 50, self.cx + 35, self.cy + 35
+    def get_collision2(self):
+        return self.cx - 35, self.cy - 50, self.cx + 35, self.cy + 70
 
     def setup():
-        Server.collision_boxs = [Collision_Box(1018, 133)]
+        Server.collision_boxs2 = [Collision_Box2(1367, 133)]
