@@ -2,6 +2,11 @@ from pico2d import *
 import Server
 from Player import Player
 
+name = 'BackGround'
+image = None
+font = None
+R, G, B = 255, 255, 255
+
 class Stage1:
     def __init__(self):
         self.image = load_image('Resource/background_level1.png')
@@ -18,6 +23,7 @@ class Stage1:
         pass
 
     def draw(self):
+        global R, G, B
         self.image.clip_draw_to_origin(self.window_left, self.window_bottom, Server.backGround.canvas_width,
                                        Server.backGround.canvas_height, 0, 0)
         #self.image.draw(800//2, 600//2)

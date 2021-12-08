@@ -12,6 +12,8 @@ from Collision_Box import Collision_Box
 from Collision_Box2 import Collision_Box2
 from Collision_Box3 import Collision_Box3
 from Coin import Coin
+from Font import Font
+from CoinCount import Coin_Count
 
 name = "Main_State"
 
@@ -263,6 +265,8 @@ def enter():
     Collision_Box3.setup()
     Enemy.setup()
     Coin.setup()
+    Font.setup()
+    Coin_Count.setup()
 
     # stage1
     Server.backGround = Stage1()
@@ -290,6 +294,11 @@ def enter():
     Server.player = Player()
     Game_world.add_object(Server.player, 1)
 
+    # Font
+    Game_world.add_objects(Server.fonts, 1)
+
+    #Coin Count
+    Game_world.add_objects(Server.coin_counts, 1)
 
 def exit():
     Game_world.clear()
