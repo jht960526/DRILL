@@ -43,8 +43,10 @@ class Coin:
         self.bappear = True
 
     def setup():
-        Server.coins = [Coin(500, 300),
-                        Coin(1200, 300),
-                        Coin(1500, 300),
-                        Coin(1850, 300)
+        Server.coins = [Coin(500, 290),
+                        Coin(580, 320),
+                        Coin(1018, 183),
+                        Coin(1230, 310),
+                        Coin(1530, 310),
+                        Coin(1880, 310)
                         ]

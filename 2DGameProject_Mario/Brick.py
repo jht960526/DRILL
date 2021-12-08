@@ -15,8 +15,8 @@ FRAMES_PER_ACTION = 14
 
 class Brick:
     image = None
-    def __init__(self):
-        self.x, self.y = 300, 230
+    def __init__(self, x, y):
+        self.x, self.y = x, y
         self.cx, self.cy = self.x, self.y
         print('brick')
 
@@ -33,6 +33,17 @@ class Brick:
 
     def get_collision(self):
         return self.cx - 20, self.cy - 20, self.cx + 20, self.cy + 20
+
+    def setup():
+        Server.bricks = [
+            Brick(350, 230),
+            Brick(460, 240),
+            Brick(500, 240),
+            Brick(730, 240),
+            Brick(770, 240),
+            Brick(1120, 260),
+            Brick(1440, 260),
+            Brick(1780, 260)]
 
 class Brick_Q:
     image = None
@@ -58,7 +69,7 @@ class Brick_Q:
 
     def setup():
         Server.brick_Q = [
-            Brick_Q(500, 270),
-            Brick_Q(1200, 270),
-            Brick_Q(1500, 270),
-            Brick_Q(1850, 270)]
+            Brick_Q(580, 270),
+            Brick_Q(1230, 270),
+            Brick_Q(1530, 270),
+            Brick_Q(1880, 270)]

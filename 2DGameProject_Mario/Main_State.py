@@ -270,13 +270,14 @@ def enter():
     Coin_Count.setup()
     Life.setup()
     Brick_Q.setup()
+    Brick.setup()
 
     # stage1
     Server.backGround = Stage1()
     Game_world.add_object(Server.backGround, 0)
 
     # brick
-    Server.bricks = [Brick() for i in range(1)]
+    #Server.bricks = [Brick() for i in range(1)]
     Game_world.add_objects(Server.bricks, 0)
 
     # brick_Q
@@ -329,6 +330,7 @@ def handle_events():
 def update():
     for game_object in Game_world.all_objects():
         game_object.update()
+        print(Server.player.x)
 
         # enemy
         for enemy in Server.enemies:
