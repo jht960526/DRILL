@@ -14,6 +14,7 @@ from Collision_Box3 import Collision_Box3
 from Coin import Coin
 from Font import Font
 from CoinCount import Coin_Count
+from Life import Life
 
 name = "Main_State"
 
@@ -267,6 +268,7 @@ def enter():
     Coin.setup()
     Font.setup()
     Coin_Count.setup()
+    Life.setup()
 
     # stage1
     Server.backGround = Stage1()
@@ -299,6 +301,9 @@ def enter():
 
     #Coin Count
     Game_world.add_objects(Server.coin_counts, 1)
+
+    #Life
+    Game_world.add_objects(Server.life, 1)
 
 def exit():
     Game_world.clear()

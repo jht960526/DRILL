@@ -9,4 +9,5 @@ collision_boxs3 = []
 coins = []
 fonts = []
 coin_counts = []
+life = []
 
