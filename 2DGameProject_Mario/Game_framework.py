@@ -88,12 +88,11 @@ import time
 frame_time = 0.0
 
 def run(start_state):
-    global running, stack
+    global running, stack, frame_time
     running = True
     stack = [start_state]
     start_state.enter()
 
-    global frame_time
     current_time = time.time()
     while (running):
         stack[-1].handle_events()

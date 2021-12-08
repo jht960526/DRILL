@@ -269,6 +269,7 @@ def enter():
     Font.setup()
     Coin_Count.setup()
     Life.setup()
+    Brick_Q.setup()
 
     # stage1
     Server.backGround = Stage1()
@@ -279,10 +280,11 @@ def enter():
     Game_world.add_objects(Server.bricks, 0)
 
     # brick_Q
-    Server.bricks_Q = [Brick_Q() for i in range(1)]
-    Game_world.add_objects(Server.bricks_Q, 0)
+    #Server.bricks_Q = [Brick_Q() for i in range(1)]
+    Game_world.add_objects(Server.brick_Q, 0)
 
     # Coin
+    Game_world.add_objects(Server.coins, 0)
 
     # Collision_Box
     Game_world.add_objects(Server.collision_boxs, 0)
@@ -334,52 +336,59 @@ def update():
                 enemy.dead()
                 if Server.player.y > enemy.y:
                     Server.player.jump()
-                    print("Jump")
 
             if enemy.deadTime >= 1:
                 Game_world.remove_object(enemy)
                 Server.enemies.remove(enemy)
 
             if mario_right_collision(Server.player, enemy):
-                Server.player.x = enemy.x - 80
+                Server.player.x = enemy.x - 90
+                Server.player.life -= 1
+                #if Server.player.life == 0:
+                    #Game_world.remove_object(Server.player)
 
             if mario_left_collision(Server.player, enemy):
-                Server.player.x = enemy.x + 80
+                Server.player.x = enemy.x + 90
+                Server.player.life -= 1
+                #if Server.player.life == 0:
+                    #Game_world.remove_object(Server.player)
 
             # enemy collision_box1
             for collision_box in Server.collision_boxs:
                 if enemy_left_collision(enemy, collision_box):
                     enemy.velocity *= -1
                     enemy.x = collision_box.x + 80
-
+                    print("lok")
 
                 if enemy_right_collision(enemy, collision_box):
                     enemy.velocity *= -1
                     enemy.x = collision_box.x - 80
-
+                    print("rok")
 
             # enemy collision_box2
             for collision_box2 in Server.collision_boxs2:
                 if enemy_left_collision2(enemy, collision_box2):
                     enemy.velocity *= -1
                     enemy.x = collision_box2.x + 80
-
+                    #print("ok2")
 
                 if enemy_right_collision2(enemy, collision_box2):
                     enemy.velocity *= -1
                     enemy.x = collision_box2.x - 80
-
+                    #print("ok2")
 
             # enemy collision_box3
             for collision_box3 in Server.collision_boxs3:
                 if enemy_left_collision3(enemy, collision_box3):
                     enemy.velocity *= -1
                     enemy.x = collision_box3.x + 80
+                    #print("ok3")
 
 
                 if enemy_right_collision3(enemy, collision_box3):
                     enemy.velocity *= -1
                     enemy.x = collision_box3.x - 80
+                    #print("ok3")
 
 
         # brick
@@ -397,16 +406,16 @@ def update():
                 Server.player.fallSpeed = 0
 
         # brick_Q
-        for brick_Q in Server.bricks_Q:
+        for brick_Q in Server.brick_Q:
             if mario_right_collision(Server.player, brick_Q):
                 Server.player.x = brick_Q.x - 65
 
             if mario_top_collision(Server.player, brick_Q):
                 Game_world.remove_object(brick_Q)
-                Server.bricks_Q.remove(brick_Q)
-                Game_world.add_objects(Server.coins, 0)
-                for coin in Server.coins:
-                    coin.coin_appear()
+                Server.brick_Q.remove(brick_Q)
+                #Game_world.add_objects(Server.coins, 0)
+                #for coin in Server.coins:
+                    #coin.coin_appear()
 
             if mario_left_collision(Server.player, brick_Q):
                 Server.player.x = brick_Q.x + 65
@@ -416,14 +425,17 @@ def update():
 
         # coin
         for coin in Server.coins:
-            if coin.appearTime >= 0.2:
+            #if coin.appearTime >= 0.2:
+                #Game_world.remove_object(coin)
+                #Server.coins.remove(coin)
+            #coin.bappear = False
+
+            if coin_collision(Server.player, coin):
                 Game_world.remove_object(coin)
                 Server.coins.remove(coin)
                 Server.player.coin_Count += 1
                 print(Server.player.coin_Count)
-            #if coin_collision(Server.player, coin):
-                #Game_world.remove_object(coin)
-                #Server.coins.remove(coin)
+
 
         # collision_box1
         for collision_box in Server.collision_boxs:

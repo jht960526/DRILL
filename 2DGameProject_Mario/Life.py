@@ -42,6 +42,8 @@ class Life:
 
         if Server.player.life == 1:
             self.image1.draw(self.x, self.y)
+        else:
+            pass
 
     def update(self):
         self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom

@@ -37,8 +37,8 @@ class Brick:
 class Brick_Q:
     image = None
 
-    def __init__(self):
-        self.x, self.y = 350, 230
+    def __init__(self, x, y):
+        self.x, self.y = x, y
         self.cx, self.cy = self.x, self.y
         self.frame = 0
 
@@ -55,3 +55,10 @@ class Brick_Q:
 
     def get_collision(self):
         return self.cx - 20, self.cy - 20, self.cx + 20, self.cy + 20
+
+    def setup():
+        Server.brick_Q = [
+            Brick_Q(500, 270),
+            Brick_Q(1200, 270),
+            Brick_Q(1500, 270),
+            Brick_Q(1850, 270)]

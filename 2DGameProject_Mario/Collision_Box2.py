@@ -16,7 +16,7 @@ class Collision_Box2:
         draw_rectangle(*self.get_collision2())
 
     def get_collision2(self):
-        return self.cx - 35, self.cy - 50, self.cx + 35, self.cy + 70
+        return self.cx - 35, self.cy - 50, self.cx + 30, self.cy + 70
 
     def setup():
         Server.collision_boxs2 = [Collision_Box2(1367, 133)]
