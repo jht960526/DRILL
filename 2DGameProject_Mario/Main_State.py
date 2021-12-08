@@ -405,6 +405,8 @@ def update():
             if coin.appearTime >= 0.2:
                 Game_world.remove_object(coin)
                 Server.coins.remove(coin)
+                Server.player.coin_Count += 1
+                print(Server.player.coin_Count)
             #if coin_collision(Server.player, coin):
                 #Game_world.remove_object(coin)
                 #Server.coins.remove(coin)

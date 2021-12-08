@@ -34,7 +34,6 @@ class Coin:
         self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom
         if self.bappear:
             self.appearTime += Game_framework.frame_time
-            print("appear Time start")
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * Game_framework.frame_time) % 4
 
     def get_collision(self):

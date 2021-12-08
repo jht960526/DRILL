@@ -3,13 +3,18 @@ from pico2d import *
 import Game_framework
 import Main_State
 import Game_world
+import random
 
 name = "TitleState"
 image = None
+font = None
+time = 0
+R, G, B = 255, 255, 255
 
 def enter():
-    global image
+    global image, font
     image = load_image('Resource/Title_State800x600.png')
+    font = load_font('Resource/font/super-mario-64.ttf')
     pass
 
 
@@ -32,12 +37,21 @@ def handle_events():
     pass
 
 def update():
+    global time, R, G, B
     for game_object in Game_world.all_objects():
         game_object.update()
 
+    time += Game_framework.frame_time
+    if time >= 0.2:
+        time = 0
+        R = random.randint(0, 255)
+        G = random.randint(0, 255)
+        B = random.randint(0, 255)
 
 def draw():
+    global image,R, G, B
     clear_canvas()
     image.draw(800 // 2, 600 // 2)
+    font.draw(800 * 0.25, 600 * 0.3, 'Press SpaceBar To Start', (R, G, B))
     update_canvas()
     pass

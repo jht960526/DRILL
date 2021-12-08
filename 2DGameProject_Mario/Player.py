@@ -105,6 +105,7 @@ class Player:
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
         self.event_que = []
+        self.coin_Count = 0
         # image load
         self.image = load_image("Resource/mario_right_run.png")
         self.runImage = [load_image("Resource/Mario_Right_Run.png"), load_image("Resource/Mario_Left_Run.png")]
