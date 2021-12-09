@@ -365,7 +365,6 @@ def handle_events():
 def update():
     for game_object in Game_world.all_objects():
         game_object.update()
-        print(Server.player.x)
 
         # enemy
         for enemy in Server.enemies:

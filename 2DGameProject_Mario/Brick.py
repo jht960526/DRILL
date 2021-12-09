@@ -18,7 +18,6 @@ class Brick:
     def __init__(self, x, y):
         self.x, self.y = x, y
         self.cx, self.cy = self.x, self.y
-        print('brick')
 
         if Brick.image == None:
             Brick.image = load_image('Resource/brick1.png')
