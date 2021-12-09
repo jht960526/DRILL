@@ -12,9 +12,11 @@ time = 0
 R, G, B = 255, 255, 255
 
 def enter():
-    global image, font
+    global image, font, bgm
     image = load_image('Resource/Title_State800x600.png')
     font = load_font('Resource/font/super-mario-64.ttf')
+    bgm = load_music('Resource/sound/mario.wav')
+    bgm.play()
     pass
 
 

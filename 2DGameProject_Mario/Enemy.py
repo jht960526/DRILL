@@ -29,6 +29,8 @@ class Enemy:
         self.deadCount = 0
         self.deadTime = 0
         self.cx, self.cy = 0, 0
+        self.enemy_die_bgm = load_music('Resource/sound/death1.wav')
+        self.enemy_die_bgm.set_volume(16)
 
         if Enemy.image == None:
             Enemy.image = load_image("Resource/Enemy.png")
@@ -57,6 +59,7 @@ class Enemy:
     def dead(self):
         self.bDead = True
         self.velocity = 0
+        self.enemy_die_bgm.play(1)
 
     def get_collision(self):
         return self.cx - 20, self.cy - 15, self.cx + 20, self.cy + 15
@@ -65,7 +68,7 @@ class Enemy:
         return self.cx - 10, self.cy + (29 // 2), self.cx + 10, self.cy + 29
 
     def get_enemy_left(self):
-        return self.cx - 25, self.cy - 15, self.cx - 20, self.cy + 15
+        return self.cx - 25, self.cy - 15, self.cx - 5, self.cy + 15
 
     def get_enemy_right(self):
         return self.cx + 5, self.cy - 15, self.cx + 25, self.cy + 15

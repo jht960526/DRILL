@@ -40,10 +40,11 @@ class Brick:
             Brick(460, 240),
             Brick(500, 240),
             Brick(730, 240),
-            Brick(770, 240),
-            Brick(1120, 260),
-            Brick(1440, 260),
-            Brick(1780, 260)]
+            Brick(770, 240)
+            #Brick(1120, 260),
+            #Brick(1440, 260),
+            #Brick(1780, 260)
+        ]
 
 class Brick_Q:
     image = None

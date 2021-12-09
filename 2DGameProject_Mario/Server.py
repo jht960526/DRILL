@@ -1,3 +1,4 @@
+
 backGround = None
 player = None
 brick_Q = []
@@ -10,4 +11,5 @@ coins = []
 fonts = []
 coin_counts = []
 life = []
+sound = None
 

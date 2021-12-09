@@ -4,6 +4,7 @@ from pico2d import *
 
 import Game_world
 import Server
+from Sound import Sound
 
 PIXEL_PER_METER = (10.0/ 0.3)
 RUN_SPEED_KMPH = 20.0
@@ -113,6 +114,9 @@ class Player:
         self.idleImage = [load_image("Resource/Mario_Right_Idle.png"), load_image("Resource/Mario_Left_Idle.png")]
         # Check
         self.bIsJump = False
+        # Sound
+        self.jump_bgm = load_music('Resource/sound/jump.wav')
+        self.jump_bgm.set_volume(16)
 
     def add_event(self, event):
         self.event_que.insert(0, event)
@@ -139,6 +143,7 @@ class Player:
     def draw(self):
         self.cur_state.draw(self)
         draw_rectangle(*self.get_collision())
+        draw_rectangle(*self.get_mario_bottom_box())
         delay(0.012)
 
 
@@ -151,6 +156,7 @@ class Player:
         self.bIsJump = True
         self.fallSpeed = -13
         self.jumpCount += 1
+        self.jump_bgm.play(1)
 
     def get_collision(self):
         return self.cx - 28, self.cy - 51, self.cx + 28, self.cy + 51
@@ -159,13 +165,13 @@ class Player:
         return self.cx - 14, self.cy - 51, self.cx + 14, self.cy - (51 // 2)
 
     def get_mario_left_box(self):
-        return self.cx - 45, self.cy -41, self.cx - 30, self.cy + 41
+        return self.cx - 32, self.cy -41, self.cx - 26, self.cy + 41
 
     def get_mario_right_box(self):
-        return self.cx + 30, self.cy - 41, self.cx + 45, self.cy + 41
+        return self.cx + 26, self.cy - 41, self.cx + 32, self.cy + 41
 
     def get_mario_bottom_box(self):
-        return self.cx - 35, self.cy - 51, self.cx + 35, self.cy - 41
+        return self.cx - 25, self.cy - 53, self.cx + 25, self.cy - 48
 
     def get_mario_top_box(self):
-        return self.cx - 35, self.cy + 41, self.cx + 35, self.cy + 51
+        return self.cx - 25, self.cy + 41, self.cx + 25, self.cy + 51

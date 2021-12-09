@@ -15,8 +15,21 @@ from Coin import Coin
 from Font import Font
 from CoinCount import Coin_Count
 from Life import Life
+from Sound import Sound
 
 name = "Main_State"
+
+coin_bgm = None
+
+PIXEL_PER_METER = (30.0/0.3)
+RUN_SPEED_KMPH = 8.0
+RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
+RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
+RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
+
+TIME_PER_ACTION = 2.0
+ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
+FRAMES_PER_ACTION = 14
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_collision()
@@ -308,6 +321,8 @@ def enter():
     #Life
     Game_world.add_objects(Server.life, 1)
 
+    #Sound
+
 def exit():
     Game_world.clear()
 
@@ -328,6 +343,9 @@ def handle_events():
             Server.player.player_Handle(event)
 
 def update():
+    global coin_bgm
+    coin_bgm = load_music('Resource/sound/eatmoney.wav')
+    coin_bgm.set_volume(16)
     for game_object in Game_world.all_objects():
         game_object.update()
         print(Server.player.x)
@@ -358,37 +376,37 @@ def update():
             # enemy collision_box1
             for collision_box in Server.collision_boxs:
                 if enemy_left_collision(enemy, collision_box):
-                    enemy.velocity *= -1
+                    enemy.velocity = RUN_SPEED_PPS
                     enemy.x = collision_box.x + 80
                     print("lok")
 
                 if enemy_right_collision(enemy, collision_box):
-                    enemy.velocity *= -1
+                    enemy.velocity = -RUN_SPEED_PPS
                     enemy.x = collision_box.x - 80
-                    print("rok")
+                    #print("rok")
 
             # enemy collision_box2
             for collision_box2 in Server.collision_boxs2:
                 if enemy_left_collision2(enemy, collision_box2):
-                    enemy.velocity *= -1
+                    enemy.velocity = RUN_SPEED_PPS
                     enemy.x = collision_box2.x + 80
                     #print("ok2")
 
                 if enemy_right_collision2(enemy, collision_box2):
-                    enemy.velocity *= -1
+                    enemy.velocity = -RUN_SPEED_PPS
                     enemy.x = collision_box2.x - 80
                     #print("ok2")
 
             # enemy collision_box3
             for collision_box3 in Server.collision_boxs3:
                 if enemy_left_collision3(enemy, collision_box3):
-                    enemy.velocity *= -1
+                    enemy.velocity = RUN_SPEED_PPS
                     enemy.x = collision_box3.x + 80
                     #print("ok3")
 
 
                 if enemy_right_collision3(enemy, collision_box3):
-                    enemy.velocity *= -1
+                    enemy.velocity = -RUN_SPEED_PPS
                     enemy.x = collision_box3.x - 80
                     #print("ok3")
 
@@ -435,6 +453,7 @@ def update():
             if coin_collision(Server.player, coin):
                 Game_world.remove_object(coin)
                 Server.coins.remove(coin)
+                coin_bgm.play(1)
                 Server.player.coin_Count += 1
                 print(Server.player.coin_Count)
 
@@ -442,10 +461,10 @@ def update():
         # collision_box1
         for collision_box in Server.collision_boxs:
             if mario_left_collision(Server.player, collision_box):
-                Server.player.x = collision_box.x + 80
+                Server.player.x = collision_box.x + 75
 
             if mario_right_collision(Server.player, collision_box):
-                Server.player.x = collision_box.x - 80
+                Server.player.x = collision_box.x - 75
 
             if mario_bottom_collision(Server.player, collision_box):
                 Server.player.fallSpeed = 0
@@ -453,10 +472,10 @@ def update():
         # collision_box2
         for collision_box2 in Server.collision_boxs2:
             if mario_left_collision2(Server.player, collision_box2):
-                Server.player.x = collision_box2.x + 80
+                Server.player.x = collision_box2.x + 75
 
             if mario_right_collision2(Server.player, collision_box2):
-                Server.player.x = collision_box2.x - 80
+                Server.player.x = collision_box2.x - 75
 
             if mario_bottom_collision2(Server.player, collision_box2):
                 Server.player.fallSpeed = 0
@@ -464,10 +483,10 @@ def update():
         # collision_box3
         for collision_box3 in Server.collision_boxs3:
             if mario_left_collision3(Server.player, collision_box3):
-                Server.player.x = collision_box3.x + 80
+                Server.player.x = collision_box3.x + 75
 
             if mario_right_collision3(Server.player, collision_box3):
-                Server.player.x = collision_box3.x - 80
+                Server.player.x = collision_box3.x - 75
 
             if mario_bottom_collision3(Server.player, collision_box3):
                 Server.player.fallSpeed = 0
