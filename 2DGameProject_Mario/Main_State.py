@@ -3,6 +3,9 @@ from pico2d import *
 import Game_framework
 import Game_world
 import Server
+import Title_State
+import GameOver_State
+import End_State
 
 from Player import Player
 from Enemy import Enemy
@@ -15,6 +18,7 @@ from Coin import Coin
 from Font import Font
 from CoinCount import Coin_Count
 from Life import Life
+from Castle import Castle
 from Sound import Sound
 
 name = "Main_State"
@@ -273,6 +277,18 @@ def coin_collision(a, b):
 
     return True
 
+## castle collision
+def castle_collision(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_collision()
+    left_b, bottom_b, right_b, top_b = b.get_collision()
+
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if bottom_a > top_b: return False
+    if top_a < bottom_b: return False
+
+    return True
+
 def enter():
     Collision_Box.setup()
     Collision_Box2.setup()
@@ -284,6 +300,7 @@ def enter():
     Life.setup()
     Brick_Q.setup()
     Brick.setup()
+    Castle.setup()
 
     # stage1
     Server.backGround = Stage1()
@@ -315,13 +332,14 @@ def enter():
     # Font
     Game_world.add_objects(Server.fonts, 1)
 
-    #Coin Count
+    # Coin Count
     Game_world.add_objects(Server.coin_counts, 1)
 
-    #Life
+    # Life
     Game_world.add_objects(Server.life, 1)
 
-    #Sound
+    # Castle
+    Game_world.add_objects(Server.castle, 0)
 
 def exit():
     Game_world.clear()
@@ -364,14 +382,14 @@ def update():
             if mario_right_collision(Server.player, enemy):
                 Server.player.x = enemy.x - 90
                 Server.player.life -= 1
-                #if Server.player.life == 0:
-                    #Game_world.remove_object(Server.player)
+                if Server.player.life == 0:
+                    Game_framework.change_state(GameOver_State)
 
             if mario_left_collision(Server.player, enemy):
                 Server.player.x = enemy.x + 90
                 Server.player.life -= 1
-                #if Server.player.life == 0:
-                    #Game_world.remove_object(Server.player)
+                if Server.player.life == 0:
+                    Game_framework.change_state(GameOver_State)
 
             # enemy collision_box1
             for collision_box in Server.collision_boxs:
@@ -490,6 +508,11 @@ def update():
 
             if mario_bottom_collision3(Server.player, collision_box3):
                 Server.player.fallSpeed = 0
+
+        # castle_collision
+        for castle in Server.castle:
+            if castle_collision(Server.player, castle):
+                Game_framework.change_state(End_State)
 
 
 def draw():

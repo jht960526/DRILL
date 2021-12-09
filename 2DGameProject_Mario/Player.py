@@ -96,7 +96,7 @@ class Player:
 
     def __init__(self):
         # Status
-        self.x, self.y = 10, 133
+        self.x, self.y = 2100, 133
         self.cx, self.cy = 0, 0
         self.fallSpeed = 0
         self.velocity = 10
@@ -107,7 +107,7 @@ class Player:
         self.cur_state.enter(self, None)
         self.event_que = []
         self.coin_Count = 0
-        self.life = 3
+        self.life = 1
         # image load
         self.image = load_image("Resource/mario_right_run.png")
         self.runImage = [load_image("Resource/Mario_Right_Run.png"), load_image("Resource/Mario_Left_Run.png")]
