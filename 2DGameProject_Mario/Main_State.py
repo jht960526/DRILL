@@ -22,6 +22,8 @@ from Castle import Castle
 
 name = "Main_State"
 
+main_Stage_bgm = None
+
 PIXEL_PER_METER = (30.0/0.3)
 RUN_SPEED_KMPH = 8.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
@@ -298,6 +300,9 @@ def enter():
     Brick_Q.setup()
     Brick.setup()
     Castle.setup()
+    global main_Stage_bgm
+    main_Stage_bgm = load_music('Resource/sound/main_Stage_bgm.wav')
+    main_Stage_bgm.play(1)
 
     # stage1
     Server.backGround = Stage1()

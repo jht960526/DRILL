@@ -10,7 +10,7 @@ name = "GameOver State"
 def enter():
     global image, bgm
     image = load_image('Resource/over.png')
-    bgm = load_music('Resource/sound/death2.wav')
+    bgm = load_music('Resource/sound/gameover_bgm.wav')
     bgm.play()
     pass
 
