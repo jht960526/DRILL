@@ -19,11 +19,8 @@ from Font import Font
 from CoinCount import Coin_Count
 from Life import Life
 from Castle import Castle
-from Sound import Sound
 
 name = "Main_State"
-
-coin_bgm = None
 
 PIXEL_PER_METER = (30.0/0.3)
 RUN_SPEED_KMPH = 8.0
@@ -361,9 +358,6 @@ def handle_events():
             Server.player.player_Handle(event)
 
 def update():
-    global coin_bgm
-    coin_bgm = load_music('Resource/sound/eatmoney.wav')
-    coin_bgm.set_volume(16)
     for game_object in Game_world.all_objects():
         game_object.update()
         print(Server.player.x)
@@ -471,7 +465,6 @@ def update():
             if coin_collision(Server.player, coin):
                 Game_world.remove_object(coin)
                 Server.coins.remove(coin)
-                coin_bgm.play(1)
                 Server.player.coin_Count += 1
                 print(Server.player.coin_Count)
 

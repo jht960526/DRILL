@@ -37,4 +37,4 @@ class Coin_Count:
         self.playTime += Game_framework.frame_time
 
     def setup():
-        Server.coin_counts = [Coin_Count(400, 550)]
+        Server.coin_counts = [Coin_Count(300, 550)]

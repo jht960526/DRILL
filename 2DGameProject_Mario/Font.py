@@ -50,4 +50,4 @@ class Font:
         self.bappear = True
 
     def setup():
-        Server.fonts = [Font(600, 550)]
+        Server.fonts = [Font(500, 550)]

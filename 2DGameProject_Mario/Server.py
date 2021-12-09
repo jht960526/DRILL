@@ -12,5 +12,4 @@ fonts = []
 coin_counts = []
 life = []
 castle = []
-sound = None
 

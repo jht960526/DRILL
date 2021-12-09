@@ -40,9 +40,9 @@ class Enemy:
             self.image.clip_draw(int(self.frame) * 30, 0, 30, 30, self.cx, self.cy)
         elif self.dir == -1:
             self.image.clip_composite_draw(int(self.frame) * 30, 0, 30, 30, 0.0, 'h', self.cx, self.cy, 30, 30)
-        draw_rectangle(*self.get_collision())
-        draw_rectangle(*self.get_enemy_left())
-        draw_rectangle(*self.get_enemy_right())
+        #draw_rectangle(*self.get_collision())
+        #draw_rectangle(*self.get_enemy_left())
+        #draw_rectangle(*self.get_enemy_right())
         if self.bDead:
             self.image.clip_draw(60, 0, 30, 30, self.cx, self.cy)
 

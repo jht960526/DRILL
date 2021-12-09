@@ -28,7 +28,7 @@ class Coin:
 
     def draw(self):
         self.image.clip_draw(int(self.frame) * 40, 0, 40, 30, self.cx, self.cy)
-        draw_rectangle(*self.get_collision())
+        #draw_rectangle(*self.get_collision())
 
     def update(self):
         self.cx, self.cy = self.x - Server.backGround.window_left, self.y - Server.backGround.window_bottom

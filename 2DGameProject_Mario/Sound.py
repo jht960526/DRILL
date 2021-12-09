@@ -26,3 +26,7 @@ class Sound:
     def play_jump_bgm(self, volum):
         self.jump_bgm.play(1)
         self.jump_bgm.set_volume(volum)
+
+    def play_coin_bgm(self, volum):
+        self.coin_bgm.play(1)
+        self.coin_bgm.set_volume(volum)

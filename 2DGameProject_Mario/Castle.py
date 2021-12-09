@@ -28,7 +28,7 @@ class Castle:
 
     def draw(self):
         self.image.draw(self.cx, self.cy)
-        draw_rectangle(*self.get_collision())
+        #draw_rectangle(*self.get_collision())
 
     def get_collision(self):
         return self.cx - 70, self.cy - 170, self.cx + 30, self.cy

@@ -13,7 +13,8 @@ class Collision_Box3:
         pass
 
     def draw(self):
-        draw_rectangle(*self.get_collision3())
+        #draw_rectangle(*self.get_collision3())
+        pass
 
     def get_collision3(self):
         return self.cx - 30, self.cy - 50, self.cx + 35, self.cy + 115

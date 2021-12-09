@@ -96,7 +96,7 @@ class Player:
 
     def __init__(self):
         # Status
-        self.x, self.y = 2100, 133
+        self.x, self.y = 10, 133
         self.cx, self.cy = 0, 0
         self.fallSpeed = 0
         self.velocity = 10
@@ -142,8 +142,8 @@ class Player:
 
     def draw(self):
         self.cur_state.draw(self)
-        draw_rectangle(*self.get_collision())
-        draw_rectangle(*self.get_mario_bottom_box())
+        #draw_rectangle(*self.get_collision())
+        #draw_rectangle(*self.get_mario_bottom_box())
         delay(0.012)
 
 
